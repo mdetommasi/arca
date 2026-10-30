@@ -24,99 +24,107 @@ You work by talking to your agent. ARCA gives it a shared structure and focused 
 
 > **The core idea:** Git-tracked ARCA records are the source of truth. Optional memory tools such as CortexDB help you find those records; they never replace the evidence.
 
-## Start in a few minutes
+## Start here: your first project
 
-The core workflow has no external service dependency. Put this template in a new project—or carefully merge its folders into an existing repository—then open the repository root with Claude Code or Codex.
+Use the **chat of Claude Code or Codex** for the workflow below. The agent
+uses ARCA's local CLI on your behalf.
 
-**One interface:** invoke `$arca` in Codex or `/arca` in Claude Code and describe
-the operation: initialize, show status, prepare an experiment, check, or
-checkpoint. The agent uses the same local CLI available in your terminal.
+### 1. Open the project
 
-### In the extension chat
+Copy or clone this template into your project folder. For an existing
+repository, merge the ARCA scaffold while preserving your code and notes.
+Open that folder in your editor and start a Claude Code or Codex session.
+The session needs access to the files and a shell with Python 3.9+.
+With Remote SSH, open the remote project and run the agent there.
 
-Open your ARCA project folder and start a Claude Code or Codex session there.
-Type the request **in the agent's chat input**:
+The project skills are already included. You can follow this chat workflow
+without installing a separate ARCA plugin or Python package.
+
+### 2. Initialize once
+
+Type **one** of these in the agent chat:
 
 | Claude Code | Codex |
 |---|---|
-| `/arca Show the current state and next action.` | `$arca Show the current state and next action.` |
-| `/arca Check the project structure.` | `$arca Check the project structure.` |
-| `/arca Checkpoint this session.` | `$arca Checkpoint this session.` |
+| `/arca init` | `$arca init` |
 
-These invoke the repository's **skill**, which guides the agent to run the CLI.
-The skill files are included; no separate ARCA plugin or `pip` installation
-is needed for this route. The session needs access to the project files and
-a Python-capable shell. With Remote SSH, run it in the remote project folder.
+The agent reads the project instructions and asks for your research objective
+and next action if they are missing. It then uses the CLI to fill the initial
+sections of `research/CHARTER.md`, `context/STATE.md`, and `context/NEXT.md`.
+It preserves sections that already contain different research notes.
 
-### In the terminal
+Continue the conversation to define your questions, datasets, evaluation
+metrics, baseline, and compute constraints. The CLI seeds the objective and
+next action; the agent completes the other relevant records using facts you
+provide. Review the changes with it.
 
-```bash
-./arca init       # Set the research objective and next action
-./arca status     # See where the project stands
-./arca check      # Validate the repository structure
-```
+### 3. Check the project, then start working
 
-Python 3.9+ is sufficient. `python3 -m arca_cli` also works without installation;
-install with `python3 -m pip install -e .` to use `arca` from any directory.
-See the [CLI guide](docs/CLI.md) for setup, JSON output, and all commands.
-If a skill is missing from the extension, see [skill discovery troubleshooting](docs/CLI.md#when-the-skill-or-command-is-missing).
-
-### 1. Check the setup
-
-Paste this prompt into your coding agent:
-
-```text
-SETUP CHECK — I am in a new ARCA project. Inspect the repository, the current
-Git state, the ARCA template, and the available ARCA skills. Check that the
-agent can discover the project instructions. Report missing or conflicting
-files. Do not modify anything or run experiments yet.
-```
-
-### 2. Initialize the research project
-
-Invoke `$arca` / `/arca` with your objective, or paste this more detailed prompt:
-
-```text
-INITIALIZE ARCA — Read AGENTS.md, the applicable agent instructions, and the
-ARCA template. Help me initialize this research project. Ask for the research
-objective, questions, available datasets, evaluation metrics, compute
-constraints, and target outputs. After I confirm the plan, populate
-research/CHARTER.md, research/QUESTIONS.md, context/STATE.md, context/NEXT.md,
-and the relevant registries, using the shared ARCA CLI where applicable.
-Do not invent findings. Do not start GPU jobs.
-Run the ARCA structural check and show me the changes before proposing the
-first Git commit.
-```
-
-You are ready when the objective and the next action are documented, the structural check passes (or its warnings are understood), and you have reviewed the initial changes.
-
-### 3. Resume at any time
-
-In a new session, after compaction, or when switching agents, invoke the included resume workflow:
-
-| Agent | Command |
+| Claude Code | Codex |
 |---|---|
-| Codex | `$arca-resume` |
-| Claude Code | `/arca-resume` |
+| `/arca check` | `$arca check` |
 
-It reconstructs the current state from the repository, so it does not depend on the previous chat.
+The agent runs the structural check and explains any issues. Once the
+objective, next action, and evaluation protocol are clear, ask it to carry
+out the next task. You are now in the daily workflow below.
 
-## The daily workflow
+**Already initialized?** Start with `resume` in the next section. Use `init`
+for the initial setup, rather than repeating it at the start of every session.
+
+## Daily workflow: resume → work → check → checkpoint
+
+| When | Claude Code chat | Codex chat | What happens |
+|---|---|---|---|
+| Open a new session or switch agents | `/arca resume` | `$arca resume` | Reconstructs the research state, relevant evidence, and exact next action from the repository. |
+| Need a quick reminder during work | `/arca status` | `$arca status` | Shows the recorded objective, next action, Git state, and experiment counts. |
+| Prepare an experiment | `/arca experiment new "baseline"` | `$arca experiment new "baseline"` | Creates an `E-####` record; the agent helps complete its protocol before you approve a run. |
+| Check the records | `/arca check` | `$arca check` | Checks required files and selected references; the agent explains errors and warnings. |
+| End the session, take a break, or switch agents | `/arca checkpoint` | `$arca checkpoint` | The agent updates STATE/NEXT and relevant notes, then saves a checkpoint. |
+
+Between these steps, **talk to the agent normally**: ask it to implement
+code, inspect data, run an approved experiment, or investigate a result.
+ARCA records the work so that it can be continued in the next session.
+
+For example, in Claude Code:
 
 ```text
-Resume  →  Plan  →  Approve  →  Run & monitor  →  Review evidence  →  Checkpoint
+First session:
+  /arca init
+  [Answer the agent's questions about the project.]
+  /arca check
+  /arca experiment new "initial baseline"
+  [Define the protocol, approve the run, and review the results.]
+  /arca checkpoint
+
+Next session, even with a different agent/model:
+  /arca resume
+  [Continue from the recorded next action.]
 ```
 
-| When | What to ask | What ARCA produces |
-|---|---|---|
-| Resume work | Invoke `arca-resume` | A read-only reconstruction of state and the exact next action |
-| Start an experiment | “Create an ARCA experiment for [hypothesis]. Define controls, baseline, metrics, seeds, and a pilot. Register it, but wait for my approval before GPU use.” | An `E-####` record, protocol, config, and report skeleton; no training yet |
-| Monitor a run | “Check the current job, GPU use, ETA, first results, and anomalies. Report issues early.” | A progress report without premature scientific conclusions |
-| Audit evidence | Codex: `$research-evidence-audit` · Claude: `/research-evidence-audit` | A trace from claim to metrics, config, data, and artifacts, with gaps called out |
-| Validate structure | “Run the ARCA structural check and summarize failures. Do not fix automatically.” | A portable consistency check of required files and selected references |
-| End a substantial session | Codex: `$arca-checkpoint` · Claude: `/arca-checkpoint` | Updated state and next action, relevant notes, and a restartable checkpoint |
+In Codex, use `$arca` instead of `/arca`. Small code or documentation tasks
+can be handled directly; they do not need an experiment record.
 
-Small code or documentation tasks stay small: edit, test, and finish. Use the full experiment protocol only for substantive scientific work.
+### Why do some examples use sentences after `/arca`?
+
+**`/arca` selects the skill; the text after it tells the agent what to do.**
+The short forms above are the recommended way to request the operations.
+For example, these two chat messages ask for the same status summary:
+
+```text
+/arca status
+/arca Show the current state and next action.
+```
+
+`/arca init` requests initial setup. `/arca status` only reads the current
+records. They serve different points in the workflow.
+
+The agent interprets the text after the skill name and selects the workflow;
+it is not passed verbatim to a shell. For example, `resume` uses the focused
+`arca-resume` workflow, while `status` invokes the CLI's `status` command.
+The standalone `arca-resume` and `arca-checkpoint` skills remain available.
+
+If the skill is missing from your session, see
+[skill discovery troubleshooting](docs/CLI.md#when-the-skill-or-command-is-missing).
 
 ## How evidence stays connected
 
@@ -132,18 +140,17 @@ hypothesis  →  experiment E-####  →  finding F-###  →  paper claim
 
 ARCA keeps facts, source claims, hypotheses, interpretations, and decisions distinct. Negative and contradictory results remain visible so future sessions do not repeat failed work.
 
-## What happens automatically?
+## What still needs your research judgment?
 
-| Capability | What it actually does |
-|---|---|
-| `arca` skill | Routes initialization, status, experiment preparation, checks, and checkpoints through the shared CLI. |
-| `arca-resume` | Guides the agent through the canonical state and relevant evidence. Invoke it explicitly for reliable resumption. |
-| `arca experiment new` | Allocates an experiment ID and creates starter files. The agent must complete the protocol and later record results. |
-| `arca check` | Checks repository structure and selected references—not scientific correctness or CortexDB connectivity. |
-| `arca-checkpoint` | Guides state and notebook updates, then creates a checkpoint snapshot. |
-| Hooks | Run only when installed and enabled for the current agent. Included examples are not automatic lifecycle management. |
+You define the research goal and approve consequential scientific decisions,
+costly runs, and commits. The agent fills in the records using the evidence
+available to it. A structural check does not establish that an experiment
+is scientifically correct; for a finding or paper claim, invoke
+`research-evidence-audit` in the appropriate agent.
 
-ARCA never grants itself permission to launch expensive shared-GPU jobs, make major methodological changes, draw publication conclusions, or commit changes. Those decisions remain with you.
+Ask the agent to inspect the actual process or scheduler when monitoring a
+run. The CLI's status summary reports recorded information. Optional hooks
+run only when configured for your agent.
 
 ## Repository map
 
@@ -167,20 +174,22 @@ The context is layered intentionally: agents read the small current state first,
 Use the same operations directly from the repository root:
 
 ```bash
-# Validate the ARCA structure
-./arca check
-
-# Allocate a new experiment and its starter files
+./arca init                           # Initial setup; asks for objective and next action
+./arca status                         # Read the current recorded state
 ./arca experiment new "initial baseline"
-
-# Snapshot the current STATE and NEXT files
-./arca checkpoint
+./arca check                          # Validate the structure
+./arca checkpoint                     # Snapshot STATE/NEXT already on disk
 ```
 
-Update STATE/NEXT before taking a checkpoint, or ask the agent to checkpoint
-the session. The CLI snapshots the current files. Existing Python helper
-scripts remain compatible; `make status`, `make check`, and `make checkpoint`
-use the shared implementation. See the [CLI guide](docs/CLI.md).
+In the terminal you execute the CLI directly. In chat, the skill guides the
+agent through the complete workflow: for `checkpoint`, it updates the notes
+before executing the snapshot command. For research resumption, use the
+agent's `resume` workflow; the CLI has no `resume` subcommand.
+
+`python3 -m arca_cli` works in place of `./arca`. Optionally install with
+`python3 -m pip install -e .` to use the bare `arca` command. Existing helper
+scripts and Make shortcuts remain available. See the [CLI guide](docs/CLI.md)
+for all options and JSON output.
 
 ## Optional integrations
 
@@ -193,7 +202,9 @@ use the shared implementation. See the [CLI guide](docs/CLI.md).
 <details>
 <summary><strong>Do I need to edit every Markdown file myself?</strong></summary>
 
-No. Start with the initialization prompt. The agent should fill only the relevant files and ask for missing scientific facts instead of inventing them.
+No. Start with `/arca init` in Claude Code or `$arca init` in Codex, then
+answer the agent's questions. It should fill only the relevant files using
+the scientific facts you provide.
 </details>
 
 <details>

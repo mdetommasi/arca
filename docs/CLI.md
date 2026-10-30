@@ -42,7 +42,26 @@ extension's chat input. A local terminal session of either agent works too.
 such as `./arca status` or `python3 -m arca_cli status` belong in a terminal;
 you can also ask the agent to execute them.
 
-For example, in **Claude Code**:
+For a new project, use **init → check → work → checkpoint**. In later sessions,
+use **resume → work → check → checkpoint**. Use `status` for a quick reminder
+during work. These short chat requests keep the sequence explicit:
+
+| Operation | Claude Code chat | Codex chat |
+|---|---|---|
+| Initial setup, once | `/arca init` | `$arca init` |
+| Resume an existing project | `/arca resume` | `$arca resume` |
+| Read the current summary | `/arca status` | `$arca status` |
+| Prepare an experiment | `/arca experiment new "baseline"` | `$arca experiment new "baseline"` |
+| Check records | `/arca check` | `$arca check` |
+| Close the session | `/arca checkpoint` | `$arca checkpoint` |
+
+The text after the skill name is an instruction interpreted by the agent.
+`/arca status` and `/arca Show the current state and next action.` request
+the same operation. `init` initializes the project; `status` reads it.
+`resume` invokes the focused `arca-resume` workflow; there is no CLI subcommand
+named `resume`. A chat checkpoint includes note updates before the CLI snapshot.
+
+Longer requests are also accepted. For example, in **Claude Code**:
 
 ```text
 /arca Initialize this project using the objective we just agreed on.

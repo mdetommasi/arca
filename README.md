@@ -1,28 +1,28 @@
 # ARCA — Agentic Research Context Architecture
 
-**Versione 2.0**
+**Version 2.0**
 
-ARCA è un harness di repository per ricerca scientifica in machine learning che dura nel tempo e passa di mano tra persone, modelli e sessioni. Tiene insieme obiettivo, ipotesi, esperimenti, risultati negativi, decisioni e claim del paper, con una provenienza verificabile dai file e da Git.
+ARCA is a repository harness for machine-learning research that lasts across people, models, and sessions. It keeps the objective, hypotheses, experiments, negative results, decisions, and paper claims together, with provenance that can be checked from the files and from Git.
 
-Un coding agent (Claude Code, Codex o un agente specializzato) legge solo il contesto utile al task corrente. Quando la chat si compatta, il modello cambia o il lavoro riprende dopo una pausa, lo stato scientifico resta nel repository.
+A coding agent (Claude Code, Codex, or a specialist agent) reads only the context that the current task needs. When the chat is compacted, the model changes, or work resumes after a pause, the scientific state stays in the repository.
 
-## Cosa fa
+## What it does
 
-- **Definisce il problema.** `research/CHARTER.md` fissa obiettivo, domande, ambito e criteri di successo.
-- **Tiene uno stato riavviabile.** `context/STATE.md` e `context/NEXT.md` registrano dove si è arrivati e la prossima azione eseguibile.
-- **Separa fatto, ipotesi e interpretazione.** Domande, ipotesi, findings, contraddizioni e decisioni restano distinti in `research/`.
-- **Registra ogni esperimento.** Ogni run ha un ID, una baseline, config, fingerprint dei dati, split, seed, metriche e commit.
-- **Collega il paper all'evidenza.** Un claim pubblicabile punta a un finding, a un esperimento e agli artifact.
-- **Conserva i risultati negativi.** Confutazioni e fallimenti restano visibili, così il lavoro successivo parte da ciò che è già stato provato.
-- **Resta usabile da solo.** CortexDB, se lo abiliti, è un indice di richiamo semantico. Registri, metriche e claim versionati restano la fonte di verità.
+- **Defines the problem.** `research/CHARTER.md` records the objective, questions, scope, and success criteria.
+- **Keeps a restartable state.** `context/STATE.md` and `context/NEXT.md` record where the work stands and the next executable action.
+- **Separates fact, hypothesis, and interpretation.** Questions, hypotheses, findings, contradictions, and decisions stay distinct under `research/`.
+- **Records every experiment.** Each run has an ID, a baseline, config, data fingerprint, split, seed, metrics, and commit.
+- **Ties the paper to the evidence.** A publishable claim points to a finding, an experiment, and the artifacts.
+- **Keeps negative results.** Refutations and failures stay visible, so later work starts from what has already been tried.
+- **Works on its own.** CortexDB, if you enable it, is a semantic recall index. Versioned registries, metrics, and claims remain the source of truth.
 
-## Principio
+## Principle
 
-**File Git-versionati = fonte di verità. CortexDB = memoria opzionale, indice semantico e knowledge graph.**
+**Git-versioned files = source of truth. CortexDB = optional memory, semantic index, and knowledge graph.**
 
-CortexDB non sostituisce registro esperimenti, metriche, dataset fingerprint, decisioni, findings e claim del paper.
+CortexDB does not replace the experiment registry, metrics, dataset fingerprints, decisions, findings, or paper claims.
 
-## Primo avvio (senza alcuna dipendenza)
+## First run (no dependencies)
 
 ```bash
 python3 scripts/arca_check.py
@@ -30,45 +30,45 @@ python3 scripts/new_experiment.py "initial baseline"
 python3 scripts/session_checkpoint.py
 ```
 
-Personalizza `research/CHARTER.md`, `context/STATE.md` e `context/NEXT.md`. Apri VS Code nella root e lavora normalmente con Claude Code o Codex.
+Fill in `research/CHARTER.md`, `context/STATE.md`, and `context/NEXT.md`. Open VS Code at the repository root and work as usual with Claude Code or Codex.
 
-## Materiale operativo
+## Where to look
 
-| Cosa | Dove |
+| What | Where |
 |---|---|
-| Istruzioni condivise e leggere | `AGENTS.md` |
-| Istruzioni Claude Code | `CLAUDE.md` |
-| Stato, prossime azioni | `context/STATE.md`, `context/NEXT.md` |
-| Ipotesi, risultati, decisioni | `research/` |
-| Esperimenti/config/provenance | `experiments/`, `data/`, `artifacts/` |
-| Claim/manoscritto | `paper/` |
-| Memoria CortexDB opzionale | `memory/CORTEXDB.md` |
-| Skill opzionali | `.agents/skills/`, `.claude/skills/` |
-| Vademecum completo | `docs/GUIDELINES_v2.md` |
-| Compatibilità aggiornata | `docs/AGENT_COMPATIBILITY.md` |
+| Shared, lightweight instructions | `AGENTS.md` |
+| Claude Code instructions | `CLAUDE.md` |
+| State and next actions | `context/STATE.md`, `context/NEXT.md` |
+| Hypotheses, results, decisions | `research/` |
+| Experiments, config, provenance | `experiments/`, `data/`, `artifacts/` |
+| Claims and manuscript | `paper/` |
+| Optional CortexDB memory | `memory/CORTEXDB.md` |
+| Optional skills | `.agents/skills/`, `.claude/skills/` |
+| Full operating guide | `docs/GUIDELINES_v2.md` |
+| Current agent compatibility | `docs/AGENT_COMPATIBILITY.md` |
 
-## Installazione CortexDB (solo se la vuoi)
+## Installing CortexDB (only if you want it)
 
-Segui `memory/CORTEXDB.md`, che documenta installazione, isolamento progetto, permessi, privacy e diagnostica. **Nessun backend si installa o si abilita automaticamente** usando ARCA.
+Follow `memory/CORTEXDB.md` for installation, per-project isolation, permissions, privacy, and diagnostics. **Using ARCA does not install or enable any backend automatically.**
 
-## Creare una skill (solo quando serve)
+## Creating a skill (only when you need one)
 
 ```bash
 python3 scripts/new_skill.py "experimental-audit" "Use when validating a completed ML experiment against its recorded metrics and provenance."
 ```
 
-Il generatore crea un `SKILL.md` per Codex e un delegato minimale per Claude Code. Consulta `docs/SKILLS.md`.
+The generator writes a `SKILL.md` for Codex and a minimal delegate for Claude Code. See `docs/SKILLS.md`.
 
-## Confini di sicurezza
+## Safety boundaries
 
-- Evita segreti, dataset riservati e note private non autorizzate nella memoria automatica.
-- Non trasferire dati su server condivisi senza autorizzazione, token e trasporto sicuro.
-- Non usare memoria auto-raccolta come evidenza scientifica.
-- Mantieni il sistema pienamente operativo anche con CortexDB disattivato.
+- Keep secrets, restricted datasets, and unauthorized private notes out of automatic memory.
+- Move data to shared servers only with authorization, a token, and secure transport.
+- Treat automatically recalled memory as a lead, and check it against the repository before using it as scientific evidence.
+- Keep the system fully usable with CortexDB turned off.
 
-## Riferimenti
+## References
 
-- [CortexDB (repo corretto: liliang-cn/cortexdb)](https://github.com/liliang-cn/cortexdb)
-- [Codex: guidance su skill e AGENTS.md, settembre 2026](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra)
+- [CortexDB (correct repo: liliang-cn/cortexdb)](https://github.com/liliang-cn/cortexdb)
+- [Codex: guidance on skills and AGENTS.md, September 2026](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra)
 - [Codex skill locations](https://learn.chatgpt.com/docs/build-skills)
 - [Claude Skills](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview)

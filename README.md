@@ -1,8 +1,20 @@
 # ARCA — Agentic Research Context Architecture
 
-**Versione 2.0 · UniBo research template (nome/affiliazione proposti, non ufficiali)**
+**Versione 2.0**
 
-ARCA è uno scheletro di repository per ML e ricerca scientifica long-running con Claude Code, Codex e agenti specializzati (es. Feynman). Protegge conoscenza sperimentale e provenance anche dopo cambio modello, compaction e pause lunghe.
+ARCA è un harness di repository per ricerca scientifica in machine learning che dura nel tempo e passa di mano tra persone, modelli e sessioni. Tiene insieme obiettivo, ipotesi, esperimenti, risultati negativi, decisioni e claim del paper, con una provenienza verificabile dai file e da Git.
+
+Un coding agent (Claude Code, Codex o un agente specializzato) legge solo il contesto utile al task corrente. Quando la chat si compatta, il modello cambia o il lavoro riprende dopo una pausa, lo stato scientifico resta nel repository.
+
+## Cosa fa
+
+- **Definisce il problema.** `research/CHARTER.md` fissa obiettivo, domande, ambito e criteri di successo.
+- **Tiene uno stato riavviabile.** `context/STATE.md` e `context/NEXT.md` registrano dove si è arrivati e la prossima azione eseguibile.
+- **Separa fatto, ipotesi e interpretazione.** Domande, ipotesi, findings, contraddizioni e decisioni restano distinti in `research/`.
+- **Registra ogni esperimento.** Ogni run ha un ID, una baseline, config, fingerprint dei dati, split, seed, metriche e commit.
+- **Collega il paper all'evidenza.** Un claim pubblicabile punta a un finding, a un esperimento e agli artifact.
+- **Conserva i risultati negativi.** Confutazioni e fallimenti restano visibili, così il lavoro successivo parte da ciò che è già stato provato.
+- **Resta usabile da solo.** CortexDB, se lo abiliti, è un indice di richiamo semantico. Registri, metriche e claim versionati restano la fonte di verità.
 
 ## Principio
 

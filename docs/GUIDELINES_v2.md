@@ -1,6 +1,6 @@
 # ARCA v2.0 — Guidelines operative per la ricerca scientifica con coding agents
 
-Data revisione: 22 ottobre 2026. Contesto: progetti UniBo; denominazione ARCA proposta e non istituzionalmente approvata.
+Data revisione: 22 ottobre 2026.
 
 ## 1. Cosa risolve ARCA
 

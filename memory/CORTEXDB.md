@@ -39,11 +39,11 @@ export CORTEXDB_PATH="$(pwd)/.local/cortexdb/brain.db"
 
 ## Scelta B: brain globale
 
-Default upstream: `~/.cortexdb/cortexdb.db`. Offre memoria condivisa fra tutti i progetti dello stesso computer, ma aumenta il rischio di contaminazione cross-project. Per ricerca UniBo con progetti/dati distinti, preferisci l'opzione A finché non hai testato il comportamento di scoping.
+Default upstream: `~/.cortexdb/cortexdb.db`. Offre memoria condivisa fra tutti i progetti dello stesso computer, ma aumenta il rischio di contaminazione cross-project. Con più progetti o dataset distinti, preferisci l'opzione A finché non hai testato il comportamento di scoping.
 
 ## Scelta C: brain remoto multi-macchina (fase avanzata)
 
-CortexDB espone `cortexdb-grpc`. Le variabili documentate upstream sono `CORTEXDB_REMOTE`, `CORTEXDB_GRPC_TOKEN`, `CORTEXDB_GRPC_ADDR`. NON mettere SQLite su NFS/SMB per condividerlo. Esponi il server solo su rete privata/Tailscale/loopback; usa TLS ove appropriato e proteggi il token. Un token compromesso può dare accesso ai contenuti del brain; verifica anche la policy UniBo sui dati della ricerca.
+CortexDB espone `cortexdb-grpc`. Le variabili documentate upstream sono `CORTEXDB_REMOTE`, `CORTEXDB_GRPC_TOKEN`, `CORTEXDB_GRPC_ADDR`. NON mettere SQLite su NFS/SMB per condividerlo. Esponi il server solo su rete privata/Tailscale/loopback; usa TLS ove appropriato e proteggi il token. Un token compromesso può dare accesso ai contenuti del brain; verifica anche la policy sui dati della ricerca applicabile al progetto.
 
 ## Workflow di recall
 

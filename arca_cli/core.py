@@ -310,6 +310,6 @@ def checkpoint(root):
         f"## STATE\n\n{state}\n\n## NEXT\n\n{next_text}\n"
     )
     with path.open("x", encoding="utf-8") as handle:
-        handle.write(content)
+        handle.write(content.rstrip("\n") + "\n")
     return {"root": str(root), "path": str(path),
             "note": "Snapshot of existing STATE/NEXT. Their content has not been updated by this command."}

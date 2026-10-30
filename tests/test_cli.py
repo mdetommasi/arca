@@ -239,6 +239,7 @@ class CLITest(unittest.TestCase):
         self.assertNotEqual(first["path"], second["path"])
         self.assertIn(STATE_TEMPLATE, Path(first["path"]).read_text())
         self.assertIn(NEXT_TEMPLATE, Path(first["path"]).read_text())
+        self.assertFalse(Path(first["path"]).read_text().endswith("\n\n"))
         self.assertEqual((self.root / "context/STATE.md").read_bytes(), before_state)
         self.assertEqual((self.root / "context/NEXT.md").read_bytes(), before_next)
         legacy = subprocess.run([sys.executable, str(self.root / "scripts/session_checkpoint.py")],

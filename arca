@@ -1,0 +1,5 @@
+#!/usr/bin/env python3
+"""Run the ARCA CLI directly from a checkout, without installation."""
+from arca_cli.cli import main
+
+raise SystemExit(main())

@@ -8,10 +8,28 @@ Crea una skill se il workflow si ripete in almeno 3 task, contiene passaggi diff
 
 ## Cosa abbiamo incluso
 
-Una sola skill dimostrativa: `research-evidence-audit`. Verifica se un finding/claim possiede prove e provenance corrette. Non lancia lunghi esperimenti né promuove automaticamente i claim.
+L'interfaccia comune è `arca`: invocala come `$arca` in Codex o `/arca` in
+Claude Code e descrivi l'operazione richiesta. Usa la [CLI condivisa](CLI.md)
+per inizializzare il progetto, leggerne lo stato, preparare un esperimento,
+controllare la struttura o creare un checkpoint.
 
-- Canonica Codex: `.agents/skills/research-evidence-audit/SKILL.md`.
-- Adattatore Claude Code: `.claude/skills/research-evidence-audit/SKILL.md` che punta alle stesse istruzioni canoniche, senza duplicare gli step.
+Scrivi l'invocazione nella chat della sessione dell'agente aperta sul progetto,
+anche nell'estensione VS Code. La skill guida l'agente nell'esecuzione di
+`python3 -m arca_cli`; nel terminale puoi invece usare direttamente `./arca`.
+Le skill sono incluse nel repository: non serve un plugin ARCA separato.
+L'installazione Python opzionale espone il comando `arca` nel terminale.
+
+Restano disponibili i workflow mirati:
+
+- `arca-resume`: ricostruzione in sola lettura dello stato scientifico.
+- `arca-checkpoint`: aggiornamento delle note canoniche seguito dallo snapshot.
+- `research-evidence-audit`: verifica di metriche, provenienza e comparabilità di un finding/claim.
+
+Le istruzioni canoniche sono in `.agents/skills/<nome>/SKILL.md`; gli
+adattatori in `.claude/skills/<nome>/SKILL.md` rimandano agli stessi file.
+La CLI esegue le operazioni sui record; l'agente fornisce il contenuto
+scientifico sulla base delle informazioni disponibili.
+
 - Crea ulteriori skill solo su necessità con `python3 scripts/new_skill.py slug "descrizione precisa del trigger"`.
 
 ## Anatomia

@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="ARCA">
+  <meta name="description" content="ARCA quick start, agent skill invocations, shared CLI, and daily research workflow.">
+  <title>ARCA · Quick Start &amp; User Guide</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 16mm 16mm 18mm;
+      @bottom-left { content: "ARCA | QUICK START & USER GUIDE · 2026-10-30"; font: 8pt sans-serif; color: #52727a; }
+      @bottom-right { content: counter(page); font: 8pt sans-serif; color: #52727a; }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font: 10pt/1.44 Arial, sans-serif; color: #173b46; }
+    .page { break-after: page; }
+    .page:last-child { break-after: auto; }
+    .hero { background: #143f48; color: white; border-radius: 12px; padding: 21px 23px; margin-bottom: 15px; }
+    .brand { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+    .mark { border: 1px solid #83dfcf; border-radius: 9px; padding: 5px 10px; font-size: 24pt; font-weight: bold; color: #befff0; }
+    .brand strong { font-size: 20pt; letter-spacing: 3px; }
+    .brand small { display: block; color: #b2ddd9; font-size: 6.5pt; font-weight: bold; letter-spacing: 1.7px; }
+    .eyebrow { color: #7ce2ce; font-size: 7pt; letter-spacing: 1.5px; font-weight: bold; border-top: 1px solid #4b7279; padding-top: 12px; }
+    h1 { font-size: 21pt; line-height: 1.18; margin: 7px 0; }
+    .hero p { color: #d1e7e9; font-size: 9.5pt; margin: 0 0 13px; }
+    .steps { display: flex; gap: 8px; }
+    .steps div { flex: 1; border: 1px solid #5b7e84; background: #244f57; border-radius: 8px; padding: 8px; font-size: 7.4pt; }
+    .steps b { display: block; color: #81dfce; font-size: 7pt; margin-bottom: 4px; }
+    h2 { font-size: 14pt; color: #075866; margin: 17px 0 8px; line-height: 1.2; }
+    h3 { font-size: 10.5pt; color: #075866; margin: 12px 0 5px; }
+    p { margin: 6px 0; }
+    .callout { background: #edf8f5; border-left: 3px solid #108579; border-radius: 3px; padding: 9px 11px; margin: 10px 0; }
+    .prompt { background: #edf8f5; border-left: 3px solid #108579; padding: 9px 11px; margin: 8px 0; font-size: 9pt; }
+    code { font-family: "DejaVu Sans Mono", monospace; font-size: 8.4pt; background: #edf2f5; padding: 1px 3px; border-radius: 3px; white-space: nowrap; }
+    pre { background: #edf2f5; border-radius: 5px; padding: 10px 12px; font: 8.5pt/1.5 "DejaVu Sans Mono", monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+    table { border-collapse: collapse; width: 100%; font-size: 9pt; margin: 9px 0; }
+    th { text-align: left; background: #edf2f5; color: #254a54; padding: 7px 8px; }
+    td { border-bottom: 1px solid #dce7e8; padding: 8px; vertical-align: top; }
+    tr { break-inside: avoid; }
+    ul, ol { padding-left: 20px; margin: 7px 0; }
+    li { margin: 5px 0; }
+    .small { font-size: 8.5pt; color: #496976; }
+    .section-label { color: #52727a; font-size: 8pt; letter-spacing: 1px; margin-bottom: 13px; }
+    a { color: #086673; text-decoration: none; }
+    .question { font-weight: bold; margin-top: 13px; }
+    .closing { background: #143f48; color: white; padding: 12px 14px; border-radius: 7px; margin-top: 17px; }
+  </style>
+</head>
+<body>
+  <section class="page">
+    <header class="hero">
+      <div class="brand"><span class="mark">A/</span><div><strong>ARCA</strong><small>AGENTIC RESEARCH CONTEXT ARCHITECTURE</small></div></div>
+      <div class="eyebrow">ARCA V2 · SHARED CLI &amp; AGENT SKILLS</div>
+      <h1>Quick Start &amp; User Guide</h1>
+      <p>One interface, from your coding-agent session or your terminal.</p>
+      <div class="steps">
+        <div><b>01</b>Connect &amp; set up</div>
+        <div><b>02</b>Initialize the project</div>
+        <div><b>03</b>Work with evidence</div>
+        <div><b>04</b>Checkpoint &amp; resume</div>
+      </div>
+    </header>
+    <div class="callout"><strong>The idea:</strong> Talk to your coding agent. It uses ARCA's shared CLI to manage the records. You supply the research facts and approve scientific decisions, costly runs, and commits.</div>
+    <h2>1 · Open the project and choose your interface</h2>
+    <p>Copy or clone the ARCA template into a project folder. For an existing repository, merge the scaffold carefully and preserve existing code, data, and instructions.</p>
+    <p>Open that folder in VS Code and start a <strong>Claude Code or Codex session</strong>. With Remote SSH, open the project on the server and ensure the agent executes commands there. Python 3.9+ must be available in that environment.</p>
+    <table>
+      <thead><tr><th>Where to type</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Claude Code chat</strong></td><td><code>/arca Show the current state and next action.</code></td></tr>
+        <tr><td><strong>Codex chat</strong></td><td><code>$arca Show the current state and next action.</code></td></tr>
+        <tr><td><strong>Project terminal</strong></td><td><code>./arca status</code></td></tr>
+      </tbody>
+    </table>
+    <p><code>/arca</code> and <code>$arca</code> invoke the <strong>project skill in the agent chat</strong>. The agent runs <code>python3 -m arca_cli</code> from the repository root. The skill files are already included; no separate ARCA plugin or Python package installation is needed for this route.</p>
+    <h3>Check the setup before changing anything</h3>
+    <div class="prompt"><strong>SETUP CHECK —</strong> Inspect this repository, Git state, ARCA scaffold, and available skills. Check that this agent can discover the project instructions and the arca skill. Report missing or conflicting files. Do not modify anything or run experiments yet.</div>
+    <h3>Prefer direct terminal commands?</h3>
+    <pre>./arca --help
+./arca status
+./arca check</pre>
+    <p class="small">Use <code>python3 -m arca_cli</code> instead of <code>./arca</code> if executable scripts are unavailable. A session needs shell access and tool permissions appropriate to the requested operation.</p>
+  </section>
+
+  <section class="page">
+    <div class="section-label">ARCA · FIRST PROJECT</div>
+    <h2>2 · Initialize the research once per repository</h2>
+    <p>In the agent chat, start with one of these requests:</p>
+    <pre>Claude Code: /arca Help me initialize this research project.
+Codex:       $arca Help me initialize this research project.</pre>
+    <p>The agent should establish the objective, questions, datasets, metrics, compute constraints, and target outputs using information you provide. For a more explicit request, paste:</p>
+    <div class="prompt"><strong>INITIALIZE ARCA —</strong> Read AGENTS.md and the applicable instructions. Ask for the research objective, questions, available datasets, evaluation metrics, compute constraints, and target outputs. After I confirm the plan, use the shared CLI to set the objective and next action, then complete only the relevant records with facts I have supplied. Do not invent findings or launch GPU jobs. Run the structural check and show me the changes before proposing the first Git commit.</div>
+    <h3>What initialization writes</h3>
+    <table>
+      <thead><tr><th>File</th><th>Section initialized by the CLI</th></tr></thead>
+      <tbody>
+        <tr><td><code>research/CHARTER.md</code></td><td>Research objective</td></tr>
+        <tr><td><code>context/STATE.md</code></td><td>Current objective</td></tr>
+        <tr><td><code>context/NEXT.md</code></td><td>One concrete next action under Now</td></tr>
+      </tbody>
+    </table>
+    <p>The command fills empty or template sections. If a section contains different project notes, it reports the conflict before writing any target file. The agent can then review the section with you. Other scientific details remain your input.</p>
+    <h3>Initialize directly from the terminal</h3>
+    <pre>./arca init</pre>
+    <p>For an agent or script without interactive input:</p>
+    <pre>./arca init \
+  --objective "Compare calibration methods on held-out data." \
+  --next-action "Inspect data/registry.yaml and define splits."</pre>
+    <div class="callout"><strong>Ready when:</strong> the objective and next action are documented, the remaining protocol details are understood, the structural check passes or its issues are explained, and you have reviewed the changes.</div>
+    <h3>Optional: make the bare <code>arca</code> command available</h3>
+    <pre>python3 -m pip install -e .
+arca --root /path/to/project status</pre>
+    <p>This installation exposes the terminal command in the active Python environment. It does not distribute the project skills or copy a template into another repository. On a remote server, install there if you want that command there.</p>
+  </section>
+
+  <section class="page">
+    <div class="section-label">ARCA · DAILY WORK</div>
+    <h2>3 · Use the same interface throughout the day</h2>
+    <p>In the examples below, start with <code>/arca</code> in Claude Code or <code>$arca</code> in Codex, then describe the operation.</p>
+    <table>
+      <thead><tr><th>When</th><th>What to ask the agent</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>Resume</td><td>“Resume this project and tell me the next action.”</td><td>Canonical state and relevant evidence; use arca-resume for the focused workflow.</td></tr>
+        <tr><td>Prepare</td><td>“Prepare an experiment for [hypothesis]. Define baseline, controls, metrics, seeds, and a pilot.”</td><td>An E-#### record and completed protocol using known facts; no training launched by the CLI.</td></tr>
+        <tr><td>Monitor</td><td>“Check the actual job, logs, GPU use, and anomalies.”</td><td>The agent must inspect the actual process or scheduler; CLI status alone is insufficient.</td></tr>
+        <tr><td>Audit</td><td>Invoke research-evidence-audit with a finding or claim.</td><td>Trace to saved metrics, config, data, and artifacts; gaps reported.</td></tr>
+        <tr><td>Check</td><td>“Check the project structure and summarize issues.”</td><td>Required-file and selected-reference checks.</td></tr>
+        <tr><td>Checkpoint</td><td>“Checkpoint this session, including the latest verification results.”</td><td>The agent updates STATE/NEXT, then saves a snapshot.</td></tr>
+      </tbody>
+    </table>
+    <div class="callout"><strong>Typical day:</strong> Resume → Plan → Approve → Run &amp; monitor → Review evidence → Checkpoint.</div>
+    <h3>Terminal equivalents</h3>
+    <pre>./arca status --full
+./arca experiment new "temperature scaling baseline"
+./arca check --strict
+./arca checkpoint</pre>
+    <p>Append <code>--json</code> for structured output. Use <code>--root PATH</code> to select a project explicitly. Installed <code>arca</code> finds a project by searching upward from the current directory for <code>framework.yaml</code>.</p>
+    <h3>Know what each operation verifies</h3>
+    <ul>
+      <li><strong>status:</strong> shows recorded notes, Git state, and experiment labels; job status is unknown until inspected externally.</li>
+      <li><strong>check:</strong> checks structure and selected references; scientific validity, remote artifacts, and CortexDB connectivity need separate checks.</li>
+      <li><strong>checkpoint:</strong> saves the notes already on disk. The complete agent workflow updates the notes first.</li>
+      <li><strong>experiment new:</strong> creates starter files and records a planned experiment. Complete the protocol before any run.</li>
+    </ul>
+    <p class="small">Existing Python helper scripts remain available and delegate to the same implementation. The CLI does not start training or create Git commits.</p>
+  </section>
+
+  <section class="page">
+    <div class="section-label">ARCA · TROUBLESHOOTING &amp; CONTINUITY</div>
+    <h2>4 · Common questions</h2>
+    <p class="question">The skill does not appear in my session. What should I check?</p>
+    <p>Open the correct project folder. Codex needs <code>.agents/skills/arca/SKILL.md</code>; type <code>$</code> or use <code>/skills</code> to select it. Claude Code needs <code>.claude/skills/arca/SKILL.md</code>; type <code>/</code> to browse. Current Claude versions offer <code>/reload-skills</code> for a newly created skills directory. Reopen the agent session if changes have not appeared.</p>
+    <p class="question">Can I ask the agent without using the skill shortcut?</p>
+    <div class="prompt">From this repository root, run <code>python3 -m arca_cli status --json</code> and explain the current state and next action.</div>
+    <p class="question">My terminal says “arca: command not found.”</p>
+    <p>Use <code>./arca</code> from the project root or <code>python3 -m arca_cli</code>. The bare command becomes available after installing the package in the active Python environment.</p>
+    <p class="question">How do I resume after compaction or a model switch?</p>
+    <p>Invoke <code>/arca-resume</code> in Claude Code or <code>$arca-resume</code> in Codex, or ask the arca skill to resume. It reads canonical repository records. Resume quality depends on the previous checkpoint.</p>
+    <p class="question">Does closing VS Code stop training?</p>
+    <p>A job survives only if its actual server-side process or scheduler setup supports that. ARCA records job information; it does not keep processes alive.</p>
+    <p class="question">Can Claude and Codex both work on this project?</p>
+    <p>Use separate tasks or worktrees and avoid editing the same files simultaneously. Allocate experiment IDs serially within a shared working tree. Another agent's review is distinct from an experimental replication.</p>
+    <h3>Optional integrations</h3>
+    <p><strong>CortexDB:</strong> optional semantic recall. Follow <code>memory/CORTEXDB.md</code> for installation, project isolation, permissions, and privacy. Verify consequential recalled information against the repository.</p>
+    <p><strong>Feynman or other research agents:</strong> use for hypothesis generation, review, or replication where useful. Preserve ARCA instructions and skills; record their outputs with evidence and provenance.</p>
+    <h3>Further reading and invocation references</h3>
+    <p><code>docs/CLI.md</code> — command reference, installation, JSON output, and troubleshooting.<br>
+       <code>docs/GUIDELINES_v2.md</code> — research protocol.<br>
+       <code>docs/SKILLS.md</code> — focused workflows.</p>
+    <p class="small">Invocation syntax checked on 2026-10-30 against the official
+      <a href="https://learn.chatgpt.com/docs/build-skills">Codex skills guide</a>,
+      <a href="https://code.claude.com/docs/en/skills">Claude Code skills guide</a>, and
+      <a href="https://code.claude.com/docs/en/vs-code">Claude Code VS Code guide</a>.
+      Extension behavior varies by installed version; CLI tests do not establish UI compatibility for every version.</p>
+    <div class="closing"><strong>The agents do the work. You make the research decisions. The repository keeps the evidence.</strong></div>
+  </section>
+</body>
+</html>

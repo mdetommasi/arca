@@ -2,6 +2,11 @@
 
 Ogni esperimento non banale ha un ID immutabile `E-####`.
 
+Crea i file iniziali con `./arca experiment new "titolo"`, oppure chiedilo
+all'agente con la skill `arca`. Completa il protocollo prima del run; il
+comando registra l'esperimento come `planned` e non avvia il training.
+Vedi [`docs/CLI.md`](../docs/CLI.md).
+
 Struttura suggerita:
 
 experiments/E-0001-short-name/

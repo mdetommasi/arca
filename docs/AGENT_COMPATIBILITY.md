@@ -1,5 +1,19 @@
 # Coding agent compatibility · ottobre 2026
 
+## ARCA interface in an editor session
+
+Open the ARCA project folder in the editor and start the agent session there.
+In Claude Code's chat, type `/arca Show the current state`; in Codex's chat,
+type `$arca Show the current state`. These load the repository skill, which
+guides the agent to run `python3 -m arca_cli` from the project root.
+
+For direct terminal use, run `./arca status` or `python3 -m arca_cli status`.
+Installing with `python3 -m pip install -e .` additionally exposes the bare
+`arca` command. A separate ARCA marketplace plugin is not required.
+
+For Remote SSH projects, the agent must execute in the remote project folder.
+See [`CLI.md`](CLI.md) for setup and skill-discovery troubleshooting.
+
 ## Codex (OpenAI)
 
 - `AGENTS.md`: repository guidance, keep lean; prefer pointers and task-specific retrieval over blanket pre-read.
@@ -9,6 +23,10 @@
 
 Refs: https://learn.chatgpt.com/docs/build-skills ; https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra ; https://developers.openai.com/plugins/build/plugins
 
+Explicit skill selection in the CLI/IDE uses `$` or `/skills`. Codex reads
+repository skills from `.agents/skills/`; if an update is not detected,
+restart Codex. Verified against the official skills guide on 2026-10-30.
+
 ## Claude Code (Anthropic)
 
 - `CLAUDE.md`: project instructions; `@AGENTS.md` keeps cross-agent contract central.
@@ -17,6 +35,14 @@ Refs: https://learn.chatgpt.com/docs/build-skills ; https://developers.openai.co
 - Skills may also live in user config; keep project versioned skills narrowly scoped.
 
 Ref: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview
+
+Project skills under `.claude/skills/` can be invoked as `/skill-name` in the
+Claude Code session. The VS Code extension suggests skills when typing `/`.
+Current versions provide `/reload-skills` for a newly created skills directory;
+reopening the session is the fallback. Verified against the official
+[skills](https://code.claude.com/docs/en/skills) and
+[VS Code](https://code.claude.com/docs/en/vs-code) guides on 2026-10-30;
+interactive behavior has not been tested in every installed extension version.
 
 ## Feynman / other research agents
 

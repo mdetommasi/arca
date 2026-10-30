@@ -1,6 +1,6 @@
 # ARCA v2.0 — Guidelines operative per la ricerca scientifica con coding agents
 
-Data revisione: 22 ottobre 2026.
+Data revisione: 30 ottobre 2026.
 
 ## 1. Cosa risolve ARCA
 
@@ -14,19 +14,19 @@ Sessioni molto lunghe, compaction, cambio modello, sperimentazioni negative, mod
 
 ## 3. Avvio di una nuova ricerca
 
-Clona/copia il template, compila `research/CHARTER.md`, definisci benchmark/validazione e datasource. Scrivi una prima versione concisa di `STATE.md` e `NEXT.md`; prepara Git e l'ambiente Python. Esegui `python3 scripts/arca_check.py`.
+Clona/copia il template e avvia `./arca init` per impostare obiettivo e prossima azione, oppure chiedilo all'agente con `$arca` (Codex) o `/arca` (Claude Code). Completa `research/CHARTER.md` con benchmark/validazione e datasource; prepara Git e l'ambiente Python. Esegui `./arca check`. La [guida CLI](CLI.md) descrive anche installazione e output JSON.
 
 Non è necessario installare CortexDB, skill esterne o server MCP per cominciare.
 
 ## 4. Uso giornaliero
 
-**Sessione nuova o cambio agente.** Leggi stato/next e il task corrente, controlla `git status`; apri solo esperimenti/paper/literatura pertinenti. Se CortexDB è disponibile puoi fare recall ma devi verificare eventuali numeri prima di usarli.
+**Sessione nuova o cambio agente.** Usa `./arca status` per leggere il riepilogo, oppure invoca `arca-resume` per la ricostruzione scientifica. Leggi stato/next e il task corrente; apri solo esperimenti/paper/literatura pertinenti. Se CortexDB è disponibile puoi fare recall ma devi verificare eventuali numeri prima di usarli.
 
 **Task piccolo.** Modifica/testa/chiudi; non creare un piano burocratico.
 
-**Task scientifico.** Collega una domanda e un'ipotesi, crea `E-####`, salva config, dataset hash, commit e baseline prima del run. Dopo: metriche leggibili da macchina, report, artifact pointer e aggiornamento dei findings.
+**Task scientifico.** Collega una domanda e un'ipotesi, crea `E-####` con `./arca experiment new "titolo"`, completa config, dataset hash, commit e baseline prima del run. Dopo: metriche leggibili da macchina, report, artifact pointer e aggiornamento dei findings.
 
-**Fine sessione rilevante.** Aggiorna `STATE.md`, `NEXT.md` e, quando ha senso, una voce al `LAB_NOTEBOOK.md`. Fai un commit; facoltativamente lancia `python3 scripts/session_checkpoint.py`.
+**Fine sessione rilevante.** Aggiorna `STATE.md`, `NEXT.md` e, quando ha senso, una voce al `LAB_NOTEBOOK.md`, poi esegui `./arca checkpoint`. Le skill `arca` e `arca-checkpoint` guidano l'aggiornamento delle note prima dello snapshot. Il commit resta un'operazione separata, da eseguire quando richiesto.
 
 ## 5. L'importanza dei risultati negativi
 

@@ -8,6 +8,8 @@
   <p>
     <a href="docs/ARCA_Quick_Start_User_Guide.pdf"><strong>Quick Start &amp; User Guide</strong></a>
     ·
+    <a href="docs/CLI.md">CLI &amp; agent interface</a>
+    ·
     <a href="docs/GUIDELINES_v2.md">Operating guidelines</a>
     ·
     <a href="docs/CONTEXT_ARCHITECTURE.md">Architecture</a>
@@ -26,6 +28,39 @@ You work by talking to your agent. ARCA gives it a shared structure and focused 
 
 The core workflow has no external service dependency. Put this template in a new project—or carefully merge its folders into an existing repository—then open the repository root with Claude Code or Codex.
 
+**One interface:** invoke `$arca` in Codex or `/arca` in Claude Code and describe
+the operation: initialize, show status, prepare an experiment, check, or
+checkpoint. The agent uses the same local CLI available in your terminal.
+
+### In the extension chat
+
+Open your ARCA project folder and start a Claude Code or Codex session there.
+Type the request **in the agent's chat input**:
+
+| Claude Code | Codex |
+|---|---|
+| `/arca Show the current state and next action.` | `$arca Show the current state and next action.` |
+| `/arca Check the project structure.` | `$arca Check the project structure.` |
+| `/arca Checkpoint this session.` | `$arca Checkpoint this session.` |
+
+These invoke the repository's **skill**, which guides the agent to run the CLI.
+The skill files are included; no separate ARCA plugin or `pip` installation
+is needed for this route. The session needs access to the project files and
+a Python-capable shell. With Remote SSH, run it in the remote project folder.
+
+### In the terminal
+
+```bash
+./arca init       # Set the research objective and next action
+./arca status     # See where the project stands
+./arca check      # Validate the repository structure
+```
+
+Python 3.9+ is sufficient. `python3 -m arca_cli` also works without installation;
+install with `python3 -m pip install -e .` to use `arca` from any directory.
+See the [CLI guide](docs/CLI.md) for setup, JSON output, and all commands.
+If a skill is missing from the extension, see [skill discovery troubleshooting](docs/CLI.md#when-the-skill-or-command-is-missing).
+
 ### 1. Check the setup
 
 Paste this prompt into your coding agent:
@@ -39,13 +74,16 @@ files. Do not modify anything or run experiments yet.
 
 ### 2. Initialize the research project
 
+Invoke `$arca` / `/arca` with your objective, or paste this more detailed prompt:
+
 ```text
 INITIALIZE ARCA — Read AGENTS.md, the applicable agent instructions, and the
 ARCA template. Help me initialize this research project. Ask for the research
 objective, questions, available datasets, evaluation metrics, compute
 constraints, and target outputs. After I confirm the plan, populate
 research/CHARTER.md, research/QUESTIONS.md, context/STATE.md, context/NEXT.md,
-and the relevant registries. Do not invent findings. Do not start GPU jobs.
+and the relevant registries, using the shared ARCA CLI where applicable.
+Do not invent findings. Do not start GPU jobs.
 Run the ARCA structural check and show me the changes before proposing the
 first Git commit.
 ```
@@ -98,9 +136,10 @@ ARCA keeps facts, source claims, hypotheses, interpretations, and decisions dist
 
 | Capability | What it actually does |
 |---|---|
+| `arca` skill | Routes initialization, status, experiment preparation, checks, and checkpoints through the shared CLI. |
 | `arca-resume` | Guides the agent through the canonical state and relevant evidence. Invoke it explicitly for reliable resumption. |
-| `new_experiment.py` | Allocates an experiment ID and creates starter files. The agent must complete the protocol and later record results. |
-| `arca_check.py` | Checks repository structure and selected references—not scientific correctness or CortexDB connectivity. |
+| `arca experiment new` | Allocates an experiment ID and creates starter files. The agent must complete the protocol and later record results. |
+| `arca check` | Checks repository structure and selected references—not scientific correctness or CortexDB connectivity. |
 | `arca-checkpoint` | Guides state and notebook updates, then creates a checkpoint snapshot. |
 | Hooks | Run only when installed and enabled for the current agent. Included examples are not automatic lifecycle management. |
 
@@ -125,20 +164,23 @@ The context is layered intentionally: agents read the small current state first,
 
 ## Prefer the terminal?
 
-The agent can run these helpers for you, but they are also available directly and require only Python 3:
+Use the same operations directly from the repository root:
 
 ```bash
 # Validate the ARCA structure
-python3 scripts/arca_check.py
+./arca check
 
 # Allocate a new experiment and its starter files
-python3 scripts/new_experiment.py "initial baseline"
+./arca experiment new "initial baseline"
 
 # Snapshot the current STATE and NEXT files
-python3 scripts/session_checkpoint.py
+./arca checkpoint
 ```
 
-`make check` and `make checkpoint` provide shortcuts for the first and third commands.
+Update STATE/NEXT before taking a checkpoint, or ask the agent to checkpoint
+the session. The CLI snapshots the current files. Existing Python helper
+scripts remain compatible; `make status`, `make check`, and `make checkpoint`
+use the shared implementation. See the [CLI guide](docs/CLI.md).
 
 ## Optional integrations
 
@@ -181,6 +223,7 @@ Before ending a substantial session, switching agents or models, risking context
 ## Documentation
 
 - **[Quick Start & User Guide](docs/ARCA_Quick_Start_User_Guide.pdf)** — illustrated, prompt-first walkthrough for the first setup and daily use.
+- **[CLI & agent interface](docs/CLI.md)** — where to type each invocation, extension setup, terminal commands, JSON output, and troubleshooting.
 - **[Operating guidelines](docs/GUIDELINES_v2.md)** — scientific discipline and the complete working protocol.
 - **[Context architecture](docs/CONTEXT_ARCHITECTURE.md)** — how ARCA keeps retrieval focused.
 - **[Agent compatibility](docs/AGENT_COMPATIBILITY.md)** — Codex, Claude Code, Feynman, and portability notes.

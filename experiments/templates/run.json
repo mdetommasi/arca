@@ -1,0 +1,16 @@
+{
+  "run_id": "R-0000",
+  "experiment_id": "E-0000",
+  "started_at": "",
+  "completed_at": "",
+  "git_commit": "",
+  "dataset_fingerprints": {},
+  "config_hash": "",
+  "seed": null,
+  "command": "",
+  "host": "",
+  "device": "",
+  "metrics": {},
+  "artifact_ids": [],
+  "status": "planned"
+}

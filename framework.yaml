@@ -1,0 +1,18 @@
+name: ARCA
+expansion: Agentic Research Context Architecture
+version: 2.0.0
+status: research_template
+institutional_context: UniBo (proposta; non denominazione ufficiale)
+last_reviewed: 2026-10-22
+principles:
+  canonical_truth: git_tracked_files
+  memory_backend: optional
+  default_memory_backend: none
+  scientific_provenance: mandatory_for_publishable_claims
+  skills: on_demand
+  agent_independent: true
+references:
+  - https://github.com/liliang-cn/cortexdb
+  - https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra
+  - https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview
+  - https://learn.chatgpt.com/docs/build-skills

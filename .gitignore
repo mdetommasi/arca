@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# IDE / OS
+.vscode/settings.json
+.DS_Store
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# ML / large artifacts
+*.ckpt
+*.pt
+*.pth
+*.onnx
+*.safetensors
+*.joblib
+*.pkl
+wandb/
+mlruns/
+lightning_logs/
+runs/
+
+# Data
+data/raw/*
+data/interim/*
+data/processed/*
+!data/raw/.gitkeep
+!data/interim/.gitkeep
+!data/processed/.gitkeep
+!data/README.md
+!data/registry.yaml
+
+# Generated artifacts
+artifacts/files/
+context/session_archive/*.jsonl
+
+# Paper build
+paper/*.aux
+paper/*.bbl
+paper/*.blg
+paper/*.log
+paper/*.out
+paper/*.pdf
+
+# ARCA v2 local/private brain and runtime
+.local/
+.cortexdb/
+*.db-shm
+*.db-wal
+.envrc

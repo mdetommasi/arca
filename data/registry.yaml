@@ -1,0 +1,13 @@
+datasets:
+  - dataset_id: D-0001
+    name: ""
+    version: ""
+    source: ""
+    license: ""
+    local_or_remote_uri: ""
+    fingerprint: ""
+    generated_by:
+      script: ""
+      git_commit: ""
+    split_protocol: ""
+    known_issues: []

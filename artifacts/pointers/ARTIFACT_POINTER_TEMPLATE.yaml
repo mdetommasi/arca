@@ -1,0 +1,12 @@
+artifact_id: A-0001
+type: model_checkpoint
+uri_or_path: ""
+sha256: ""
+size_bytes: null
+experiment_id: E-0000
+run_id: R-0000
+git_commit: ""
+dataset_ids: []
+config_hash: ""
+created_at: ""
+notes: ""

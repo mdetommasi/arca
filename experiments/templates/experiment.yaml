@@ -1,0 +1,48 @@
+experiment_id: E-0000
+title: ""
+status: planned
+created_at: ""
+parent_experiment: null
+
+research:
+  question_ids: []
+  hypothesis_ids: []
+  purpose: ""
+  expected_information_gain: ""
+
+provenance:
+  git_commit: ""
+  git_dirty: false
+  code_entrypoint: ""
+  command: ""
+  environment_lock: ""
+  dataset_ids: []
+  dataset_fingerprints: {}
+  config_files: []
+
+design:
+  baseline_ids: []
+  controlled_variables: []
+  changed_variables: []
+  seeds: []
+  repetitions: 1
+  success_criteria: []
+  failure_criteria: []
+
+compute:
+  device: ""
+  host_or_cluster: ""
+  scheduler_job_ids: []
+
+outputs:
+  metrics_file: metrics.json
+  artifact_ids: []
+  logs: []
+
+result:
+  completed_at: null
+  primary_metric: null
+  primary_value: null
+  status: null
+  interpretation: null
+  decision: null

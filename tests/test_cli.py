@@ -14,8 +14,8 @@ import tempfile
 import unittest
 from unittest import mock
 
-from arca_cli import core
-from arca_cli.cli import main
+from scripts.arca_cli import core
+from scripts.arca_cli.cli import main
 
 
 SOURCE = Path(__file__).resolve().parents[1]
@@ -61,7 +61,6 @@ class CLITest(unittest.TestCase):
             destination = self.root / relative
             destination.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(SOURCE / relative, destination)
-        shutil.copytree(SOURCE / "arca_cli", self.root / "arca_cli", ignore=shutil.ignore_patterns("__pycache__"))
         shutil.copytree(SOURCE / "scripts", self.root / "scripts", ignore=shutil.ignore_patterns("__pycache__"))
         (self.root / "context/STATE.md").write_text(STATE_TEMPLATE, encoding="utf-8")
         (self.root / "context/NEXT.md").write_text(NEXT_TEMPLATE, encoding="utf-8")
@@ -83,7 +82,7 @@ class CLITest(unittest.TestCase):
     def test_help_and_module_entrypoint(self):
         before = fingerprint(self.root)
         self.assertIn("experiment", self.run_cli("--help").stdout)
-        result = subprocess.run([sys.executable, "-m", "arca_cli", "--version"], cwd=self.root,
+        result = subprocess.run([sys.executable, "-m", "scripts.arca_cli", "--version"], cwd=self.root,
                                 capture_output=True, text=True,
                                 env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"})
         self.assertEqual(result.returncode, 0, result.stderr)

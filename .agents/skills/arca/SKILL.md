@@ -5,7 +5,7 @@ description: Initialize an existing ARCA research project, inspect its state, pr
 
 # ARCA project interface
 
-Use the shared CLI for repository operations. Run `python3 -m arca_cli` from
+Use the shared CLI for repository operations. Run `python3 arca` from
 the project root, or use an installed `arca --root PATH` command. Read
 `docs/CLI.md` when command options or initialization behavior matter.
 
@@ -13,17 +13,17 @@ the project root, or use an installed `arca --root PATH` command. Read
 
 - **Initialize:** inspect `AGENTS.md`, the charter, STATE, and NEXT. Establish
   the research objective and exact next action with the user, using facts
-  already supplied. Run `python3 -m arca_cli init --objective "..."
+  already supplied. Run `python3 arca init --objective "..."
   --next-action "..." --json`. Review the changed sections and complete only
   the scientific details the user has supplied. If initialization reports
   existing content, preserve it and inspect the conflicting section.
-- **Status or resume:** run `python3 -m arca_cli status --json`. For a full
+- **Status or resume:** run `python3 arca status --json`. For a full
   research handoff, follow `.agents/skills/arca-resume/SKILL.md`. Job counts
   and experiment labels are recorded state; the CLI does not query a scheduler.
-- **Prepare an experiment:** run `python3 -m arca_cli experiment new "title"
+- **Prepare an experiment:** run `python3 arca experiment new "title"
   --json`, then complete the relevant protocol with the known baseline,
   data, metrics, seeds, and constraints. Allocation creates starter files.
-- **Check:** run `python3 -m arca_cli check --json` and report errors and
+- **Check:** run `python3 arca check --json` and report errors and
   warnings. Structural validation does not certify a scientific conclusion.
 - **Checkpoint:** follow `.agents/skills/arca-checkpoint/SKILL.md` to update
   the canonical notes before creating the snapshot.

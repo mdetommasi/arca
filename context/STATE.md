@@ -2,7 +2,7 @@
 
 > Documento mutabile e ad alta densità informativa. Mantenerlo idealmente entro 100-150 righe.
 
-Last updated: 2026-10-30 (template maintenance)
+Last updated: 2026-11-02 (template maintenance)
 Git branch: main
 Git commit: eb8b0cf (implementation base; use Git HEAD for the current revision)
 Active plan: none; see `research/plans/completed/PLAN-001-unified-cli.md`.
@@ -23,7 +23,7 @@ Descrivi l'obiettivo immediato e il suo legame con `research/CHARTER.md`.
 
 ## Current technical state
 
-- Working pipeline: shared ARCA CLI (`./arca`, `python3 -m arca_cli`, optional installed `arca`).
+- Working pipeline: shared ARCA CLI (`./arca`, `python3 arca`, optional installed `arca`).
 - Current model/config:
 - Current dataset/version:
 - Best verified result:
@@ -51,9 +51,13 @@ Sections requiring update:
 
 - CLI operations: `init`, `status`, `check`, `experiment new`, `checkpoint`.
 - Agent interface: `$arca` in Codex or `/arca` in Claude; canonical workflow in `.agents/skills/arca/SKILL.md`.
-- Existing helper scripts delegate to `arca_cli/`; retain that directory when updating an older project.
+- Existing helper scripts delegate to `scripts/arca_cli/`; retain that directory and `scripts/__init__.py` when updating an older project.
 - FACT: 21 isolated integration tests passed; regular and editable package installations were verified in a temporary environment.
 - FACT: a disposable copy of the current template passed initialization, status, and strict structural validation.
+- FACT (2026-11-02): Hatchling wheel and editable installations passed in a temporary environment without recreating root-level build/ or egg-info directories; all 21 CLI tests passed.
+- Packaging output: `.local/dist/` via `make package`. Old build/ and arca_research_cli.egg-info/ were moved recoverably to ignored `.local/packaging-archive.GpfTyu/`.
+- FACT (2026-11-02): CLI source moved to `scripts/arca_cli/`; launcher, source module, legacy helpers, all 21 tests, wheel/editable installs, and sdist-to-wheel build passed. No root-level CLI package directory remains.
+- Source invocation: `./arca` or `python3 arca` (module form: `python3 -m scripts.arca_cli`). Reinstall older editable copies once; installed command/import name stay `arca`/`arca_cli`.
 - FACT: canonical and Claude skill files passed their structural validation.
 - FACT: README, CLI/skills/compatibility docs, and the four-page illustrated PDF cover extension-chat invocation, terminal use, and Remote SSH; invocation syntax checked against official docs on 2026-10-30.
 - Editable PDF source: `docs/ARCA_Quick_Start_User_Guide.html`; regeneration instructions in `docs/CLI.md`.

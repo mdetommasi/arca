@@ -1,6 +1,7 @@
 """Repository operations shared by the CLI and legacy helper scripts.
 
-Operations receive an explicit project root. Importing this module never
+The installed package keeps the `arca_cli` import name. Operations receive
+an explicit project root. Importing this module never
 modifies files, changes Git state, or starts external services.
 """
 from __future__ import annotations

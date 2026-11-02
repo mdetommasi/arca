@@ -15,7 +15,7 @@ controllare la struttura o creare un checkpoint.
 
 Scrivi l'invocazione nella chat della sessione dell'agente aperta sul progetto,
 anche nell'estensione VS Code. La skill guida l'agente nell'esecuzione di
-`python3 -m arca_cli`; nel terminale puoi invece usare direttamente `./arca`.
+`python3 arca`; nel terminale puoi invece usare direttamente `./arca`.
 Le skill sono incluse nel repository: non serve un plugin ARCA separato.
 L'installazione Python opzionale espone il comando `arca` nel terminale.
 

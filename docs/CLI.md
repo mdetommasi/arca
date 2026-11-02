@@ -23,7 +23,7 @@ the corresponding template sections in `research/CHARTER.md`,
 and compute constraints with your agent afterward. These scientific details
 still need your input.
 
-On platforms without executable script support, use `python3 -m arca_cli`
+On platforms without executable script support, use `python3 arca`
 in place of `./arca`.
 
 ### Use it through your coding agent
@@ -39,7 +39,7 @@ extension's chat input. A local terminal session of either agent works too.
 | Project terminal | `./arca status` | Python executes the CLI directly |
 
 `/arca` and `$arca` are skill invocations in the agent chat. Shell commands
-such as `./arca status` or `python3 -m arca_cli status` belong in a terminal;
+such as `./arca status` or `python3 arca status` belong in a terminal;
 you can also ask the agent to execute them.
 
 For a new project, use **init → check → work → checkpoint**. In later sessions,
@@ -88,7 +88,7 @@ Existing `arca-resume` and `arca-checkpoint` skills remain available.
 The project includes `.agents/skills/arca/SKILL.md` for Codex and
 `.claude/skills/arca/SKILL.md` for Claude Code. ARCA is currently delivered
 as repository code and skills; no separate ARCA marketplace plugin is needed.
-The agent runs `python3 -m arca_cli` from the project root, so using the skill
+The agent runs `python3 arca` from the project root, so using the skill
 does not require installing the `arca` console command. It does require
 Python 3.9+, shell access, and the usual tool permissions for the operation.
 
@@ -109,6 +109,8 @@ arca --help
 An editable installation follows changes in this checkout. A regular
 `python3 -m pip install .` also works; reinstall after updating the code.
 Installation exposes the CLI; the ARCA project scaffold remains separate.
+If you installed an editable copy before the move into `scripts/arca_cli/`,
+rerun `python3 -m pip install -e .` once to refresh its source path.
 
 The installed command discovers the project by searching upward from the
 current directory for `framework.yaml`. Select another project explicitly:
@@ -123,6 +125,27 @@ copy of the installed CLI.
 
 Installing the Python package exposes terminal commands. Project skills
 come from the repository's `.agents/skills/` and `.claude/skills/` folders.
+
+### Where CLI files belong
+
+- `scripts/arca_cli/` contains the CLI source code alongside the repository's
+  other tools; `arca` is its small checkout launcher. `src/` remains available
+  for research implementations. Installed packages keep the `arca_cli` import name.
+- Installation metadata belongs to the selected Python environment. Packaging
+  uses Hatchling; regular and editable installs do not need in-tree `build/`
+  or `*.egg-info/` directories.
+- To build a wheel locally, run `make package`. It writes to `.local/dist/`,
+  which is ignored by Git. Hatch's configured default output is the same path;
+  other build frontends may require an explicit output directory.
+- `artifacts/` is the scientific artifact registry. Its manifest and pointers
+  describe research outputs; Python build products do not belong there.
+
+Legacy `build/` and `arca_research_cli.egg-info/` folders may remain from older
+installations. They are generated packaging files, not research records.
+
+For source checkouts, use `./arca` or `python3 arca`. The equivalent module
+entry point is `python3 -m scripts.arca_cli`; the old `python3 -m arca_cli`
+form is available only when the Python package is installed.
 
 ## Commands
 
@@ -218,14 +241,14 @@ with `ok: true` when structure is valid but warnings remain.
 | Codex does not show `arca` | Open the correct repository, confirm `.agents/skills/arca/SKILL.md` exists, and type `$` or use `/skills` to select it. Restart Codex if changes have not appeared. |
 | Claude Code does not show `/arca` | Confirm `.claude/skills/arca/SKILL.md` exists in the project, then type `/` to browse skills. On versions that support it, `/reload-skills` loads a newly created skills directory; otherwise reopen the session. |
 | The agent cannot execute commands | Use an agent session with shell access to this project and check its tool permissions. |
-| `arca: command not found` in a terminal | Use `./arca` from the repository root or `python3 -m arca_cli`. To use the bare `arca` command, install it in the active Python environment. |
-| `No module named arca_cli` | Run from the repository root containing `arca_cli/`, or use the installed console command with `--root`. |
+| `arca: command not found` in a terminal | Use `./arca` from the repository root or `python3 arca`. To use the bare `arca` command, install it in the active Python environment. |
+| `No module named arca_cli` | In a source checkout, run `python3 arca` from the project root. If using an older editable installation, reinstall it to pick up `scripts/arca_cli/`. |
 | `No ARCA project found` | Change into the project containing `framework.yaml`, or pass `--root /path/to/project`. |
 
 You can always ask the agent explicitly:
 
 ```text
-From this repository root, run python3 -m arca_cli status --json
+From this repository root, run python3 arca status --json
 and explain the current state and next action.
 ```
 
@@ -249,7 +272,8 @@ Existing helper commands continue to use the shared implementation:
 
 Legacy scripts target the repository containing the script, as before.
 The experiment and checkpoint scripts still print just the generated path.
-Keep `arca_cli/` alongside those scripts when updating an older project.
+Keep `scripts/arca_cli/` and `scripts/__init__.py` when updating those helper
+scripts in an older project.
 
 `make status`, `make check`, and `make checkpoint` use the CLI. Run the
 isolated integration suite with:

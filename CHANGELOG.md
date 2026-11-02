@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Implementazione CLI raccolta in `scripts/arca_cli/` insieme agli strumenti
+  del repository; launcher `./arca` e comando installato `arca` invariati.
+  Avvio dal sorgente con `python3 arca` o `python3 -m scripts.arca_cli`.
+- Packaging CLI con Hatchling e output locale in `.local/dist/`; installazioni
+  normali/editable senza residui `build/` o `*.egg-info/` nella root.
 - CLI comune `arca`: `init`, `status`, `check`, `experiment new`, `checkpoint`;
   avvio diretto dal checkout o installazione come comando Python.
 - Output JSON e selezione del progetto dalla directory corrente o `--root`.

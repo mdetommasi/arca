@@ -5,9 +5,9 @@
 Open the ARCA project folder in the editor and start the agent session there.
 In Claude Code's chat, type `/arca Show the current state`; in Codex's chat,
 type `$arca Show the current state`. These load the repository skill, which
-guides the agent to run `python3 -m arca_cli` from the project root.
+guides the agent to run `python3 arca` from the project root.
 
-For direct terminal use, run `./arca status` or `python3 -m arca_cli status`.
+For direct terminal use, run `./arca status` or `python3 arca status`.
 Installing with `python3 -m pip install -e .` additionally exposes the bare
 `arca` command. A separate ARCA marketplace plugin is not required.
 

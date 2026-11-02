@@ -5,7 +5,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from arca_cli.core import ArcaError, new_experiment
+from scripts.arca_cli.core import ArcaError, new_experiment
 
 
 def main():

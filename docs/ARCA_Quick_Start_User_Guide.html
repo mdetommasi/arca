@@ -73,14 +73,14 @@
         <tr><td><strong>Project terminal</strong></td><td><code>./arca status</code></td></tr>
       </tbody>
     </table>
-    <p><code>/arca</code> and <code>$arca</code> invoke the <strong>project skill in the agent chat</strong>. The agent runs <code>python3 -m arca_cli</code> from the repository root. The skill files are already included; no separate ARCA plugin or Python package installation is needed for this route.</p>
+    <p><code>/arca</code> and <code>$arca</code> invoke the <strong>project skill in the agent chat</strong>. The agent runs <code>python3 arca</code> from the repository root. The skill files are already included; no separate ARCA plugin or Python package installation is needed for this route.</p>
     <h3>Check the setup before changing anything</h3>
     <div class="prompt"><strong>SETUP CHECK —</strong> Inspect this repository, Git state, ARCA scaffold, and available skills. Check that this agent can discover the project instructions and the arca skill. Report missing or conflicting files. Do not modify anything or run experiments yet.</div>
     <h3>Prefer direct terminal commands?</h3>
     <pre>./arca --help
 ./arca status
 ./arca check</pre>
-    <p class="small">Use <code>python3 -m arca_cli</code> instead of <code>./arca</code> if executable scripts are unavailable. A session needs shell access and tool permissions appropriate to the requested operation.</p>
+    <p class="small">Use <code>python3 arca</code> instead of <code>./arca</code> if executable scripts are unavailable. A session needs shell access and tool permissions appropriate to the requested operation.</p>
   </section>
 
   <section class="page">
@@ -152,9 +152,9 @@ arca --root /path/to/project status</pre>
     <p class="question">The skill does not appear in my session. What should I check?</p>
     <p>Open the correct project folder. Codex needs <code>.agents/skills/arca/SKILL.md</code>; type <code>$</code> or use <code>/skills</code> to select it. Claude Code needs <code>.claude/skills/arca/SKILL.md</code>; type <code>/</code> to browse. Current Claude versions offer <code>/reload-skills</code> for a newly created skills directory. Reopen the agent session if changes have not appeared.</p>
     <p class="question">Can I ask the agent without using the skill shortcut?</p>
-    <div class="prompt">From this repository root, run <code>python3 -m arca_cli status --json</code> and explain the current state and next action.</div>
+    <div class="prompt">From this repository root, run <code>python3 arca status --json</code> and explain the current state and next action.</div>
     <p class="question">My terminal says “arca: command not found.”</p>
-    <p>Use <code>./arca</code> from the project root or <code>python3 -m arca_cli</code>. The bare command becomes available after installing the package in the active Python environment.</p>
+    <p>Use <code>./arca</code> from the project root or <code>python3 arca</code>. The bare command becomes available after installing the package in the active Python environment.</p>
     <p class="question">How do I resume after compaction or a model switch?</p>
     <p>Invoke <code>/arca-resume</code> in Claude Code or <code>$arca-resume</code> in Codex, or ask the arca skill to resume. It reads canonical repository records. Resume quality depends on the previous checkpoint.</p>
     <p class="question">Does closing VS Code stop training?</p>

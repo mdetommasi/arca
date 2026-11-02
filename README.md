@@ -163,6 +163,7 @@ run only when configured for your agent.
 | Dataset fingerprints and artifact provenance | [`data/`](data/), [`artifacts/`](artifacts/) |
 | Claims tied to evidence | [`paper/CLAIMS.md`](paper/CLAIMS.md) |
 | Cross-agent instructions | [`AGENTS.md`](AGENTS.md) |
+| CLI implementation and repository tools | [`scripts/arca_cli/`](scripts/arca_cli/), [`scripts/`](scripts/) |
 | Focused agent workflows | [`.agents/skills/`](.agents/skills/), [`.claude/skills/`](.claude/skills/) |
 | Optional semantic memory | [`memory/CORTEXDB.md`](memory/CORTEXDB.md) |
 | Complete operating guide | [`docs/GUIDELINES_v2.md`](docs/GUIDELINES_v2.md) |
@@ -186,10 +187,14 @@ agent through the complete workflow: for `checkpoint`, it updates the notes
 before executing the snapshot command. For research resumption, use the
 agent's `resume` workflow; the CLI has no `resume` subcommand.
 
-`python3 -m arca_cli` works in place of `./arca`. Optionally install with
+`python3 arca` works in place of `./arca`. Optionally install with
 `python3 -m pip install -e .` to use the bare `arca` command. Existing helper
 scripts and Make shortcuts remain available. See the [CLI guide](docs/CLI.md)
 for all options and JSON output.
+
+The CLI implementation lives under `scripts/arca_cli/`; the small `arca`
+launcher stays at the root. If you installed an editable copy before this
+move, rerun `python3 -m pip install -e .` once to refresh it.
 
 ## Optional integrations
 

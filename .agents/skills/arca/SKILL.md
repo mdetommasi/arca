@@ -1,6 +1,6 @@
 ---
 name: arca
-description: Initialize an existing ARCA research project, inspect its state, prepare an experiment, check its structure, or checkpoint a session through the shared local CLI.
+description: Initialize an existing ARCA research project, install optional CortexDB/Feynman integrations, inspect state, prepare an experiment, check structure, or checkpoint a session through the shared CLI.
 ---
 
 # ARCA project interface
@@ -17,6 +17,19 @@ the project root, or use an installed `arca --root PATH` command. Read
   --next-action "..." --json`. Review the changed sections and complete only
   the scientific details the user has supplied. If initialization reports
   existing content, preserve it and inspect the conflicting section.
+- **Optional integrations:** when requested during init, append
+  `--with cortexdb feynman --scope project` (or only the requested integration).
+  Honor an explicit `--scope user` or `--agents claude` / `--agents codex`.
+  Default to project scope and both hosts; plain init installs nothing extra.
+  For an existing project, use `python3 arca integrations install cortexdb
+  feynman --scope project --json` without reinitializing research notes.
+  Use `--dry-run` for a requested preview and `integrations status --scope
+  project --json` to inspect files. Read `docs/INTEGRATIONS.md` for locations,
+  conflict recovery, and the Feynman skills-edition boundary. Installation
+  requires network access; user scope applies to all projects. On success,
+  report that the user should reopen the agent session and handle its normal
+  MCP trust prompt, then use `/feynman lit ...` / `$feynman lit ...` or the
+  `cortexdb` skill. Do not report MCP connectivity from the file-status check.
 - **Status or resume:** run `python3 arca status --json`. For a full
   research handoff, follow `.agents/skills/arca-resume/SKILL.md`. Job counts
   and experiment labels are recorded state; the CLI does not query a scheduler.

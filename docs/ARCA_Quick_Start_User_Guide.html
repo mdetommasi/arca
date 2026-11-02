@@ -9,7 +9,7 @@
     @page {
       size: A4;
       margin: 16mm 16mm 18mm;
-      @bottom-left { content: "ARCA | QUICK START & USER GUIDE · 2026-10-30"; font: 8pt sans-serif; color: #52727a; }
+      @bottom-left { content: "ARCA | QUICK START & USER GUIDE · 2026-11-02"; font: 8pt sans-serif; color: #52727a; }
       @bottom-right { content: counter(page); font: 8pt sans-serif; color: #52727a; }
     }
     * { box-sizing: border-box; }
@@ -162,8 +162,7 @@ arca --root /path/to/project status</pre>
     <p class="question">Can Claude and Codex both work on this project?</p>
     <p>Use separate tasks or worktrees and avoid editing the same files simultaneously. Allocate experiment IDs serially within a shared working tree. Another agent's review is distinct from an experimental replication.</p>
     <h3>Optional integrations</h3>
-    <p><strong>CortexDB:</strong> optional semantic recall. Follow <code>memory/CORTEXDB.md</code> for installation, project isolation, permissions, and privacy. Verify consequential recalled information against the repository.</p>
-    <p><strong>Feynman or other research agents:</strong> use for hypothesis generation, review, or replication where useful. Preserve ARCA instructions and skills; record their outputs with evidence and provenance.</p>
+    <p><strong>CortexDB and Feynman:</strong> install both with <code>init --with cortexdb feynman</code>, or add them to an existing project using <code>integrations install</code>. The next page explains scope, setup, and invocation.</p>
     <h3>Further reading and invocation references</h3>
     <p><code>docs/CLI.md</code> — command reference, installation, JSON output, and troubleshooting.<br>
        <code>docs/GUIDELINES_v2.md</code> — research protocol.<br>
@@ -174,6 +173,40 @@ arca --root /path/to/project status</pre>
       <a href="https://code.claude.com/docs/en/vs-code">Claude Code VS Code guide</a>.
       Extension behavior varies by installed version; CLI tests do not establish UI compatibility for every version.</p>
     <div class="closing"><strong>The agents do the work. You make the research decisions. The repository keeps the evidence.</strong></div>
+  </section>
+
+  <section class="page">
+    <div class="section-label">ARCA · OPTIONAL INTEGRATIONS</div>
+    <h2>5 · CortexDB memory and Feynman research</h2>
+    <p>Install once, reopen the session, then use the new skills in either agent. Plain <code>init</code> keeps working offline without these optional components.</p>
+    <h3>Choose where they should be available</h3>
+    <table>
+      <thead><tr><th>Scope</th><th>Skills and memory</th></tr></thead>
+      <tbody>
+        <tr><td><code>project</code> · default</td><td>Skills in this project; one project database shared by Claude and Codex. Recommended for separate research projects.</td></tr>
+        <tr><td><code>user</code></td><td>Skills in every project for this user; one shared memory database. Install on each machine where the agents run.</td></tr>
+      </tbody>
+    </table>
+    <h3>During initial setup, in chat</h3>
+    <pre>Claude: /arca init --with cortexdb feynman --scope project
+Codex:  $arca init --with cortexdb feynman --scope project</pre>
+    <p>The agent asks for missing research facts, initializes the records, and installs both integrations for both hosts. Use <code>--agents claude</code> or <code>--agents codex</code> to configure only one.</p>
+    <h3>Already initialized? Add them from the terminal</h3>
+    <pre>./arca integrations install cortexdb feynman --scope project
+./arca integrations status</pre>
+    <p>Use the same request after <code>/arca</code> or <code>$arca</code> in chat. Add <code>--dry-run</code> to preview installation without downloads or writes. Research notes stay unchanged.</p>
+    <div class="callout"><strong>Next:</strong> Reopen the agent session. Handle its normal MCP trust prompt, then select the new skills. Installation does not grant permissions or start research jobs.</div>
+    <table>
+      <thead><tr><th>Claude Code chat</th><th>Codex chat</th></tr></thead>
+      <tbody>
+        <tr><td><code>/feynman lit calibration methods</code></td><td><code>$feynman lit calibration methods</code></td></tr>
+        <tr><td><code>/feynman review paper/draft.md</code></td><td><code>$feynman review paper/draft.md</code></td></tr>
+        <tr><td><code>/cortexdb recall model decisions</code></td><td><code>$cortexdb recall model decisions</code></td></tr>
+      </tbody>
+    </table>
+    <p><strong>Feynman:</strong> original research workflows with an adapter for the current host's tools. This is the skills edition, not the standalone Pi app. Outputs and provenance go under <code>research/feynman/</code>; paper drafts go under <code>paper/drafts/</code>.</p>
+    <p><strong>CortexDB:</strong> a local MCP server; both hosts use the same database within the selected scope. Default retrieval is lexical; semantic retrieval requires an embedding provider. Automatic recall/capture hooks are not installed.</p>
+    <p class="small">Pinned downloads are checked with SHA-256. Repeated installation is idempotent; conflicts preserve existing configurations. Status checks local files, not a live connection. Paths, recovery, and upstream sources: <code>docs/INTEGRATIONS.md</code>.</p>
   </section>
 </body>
 </html>

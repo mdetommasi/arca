@@ -58,6 +58,35 @@ metrics, baseline, and compute constraints. The CLI seeds the objective and
 next action; the agent completes the other relevant records using facts you
 provide. Review the changes with it.
 
+**Want CortexDB memory and Feynman research workflows too?** Use this instead
+of plain init:
+
+| Claude Code | Codex |
+|---|---|
+| `/arca init --with cortexdb feynman --scope project` | `$arca init --with cortexdb feynman --scope project` |
+
+ARCA downloads and configures both integrations for **both agents**. Choose
+`--scope project` to keep them in this project with its own memory database,
+or `--scope user` to make them available across your projects with shared memory.
+Plain `init` remains offline and installs neither integration.
+
+After installation, **reopen the agent session** and approve CortexDB in the
+host's MCP prompt when requested. Then use `/feynman lit <topic>` or
+`$feynman lit <topic>` for a literature review; `/cortexdb recall <query>` or
+`$cortexdb recall <query>` for memory. Feynman is installed as research workflow
+skills using your current agent, rather than a separate terminal app.
+
+**Already initialized?** Add the integrations without changing research notes:
+
+```bash
+./arca integrations install cortexdb feynman --scope project
+./arca integrations status
+```
+
+You can request those same operations with `/arca` or `$arca` in chat.
+Add `--dry-run` to preview installation, or `--agents claude` / `--agents codex`
+to configure only one host. See [integration setup and usage](docs/INTEGRATIONS.md).
+
 ### 3. Check the project, then start working
 
 | Claude Code | Codex |
@@ -198,9 +227,9 @@ move, rerun `python3 -m pip install -e .` once to refresh it.
 
 ## Optional integrations
 
-- **CortexDB** adds semantic recall and graph navigation. It is not required; follow [`memory/CORTEXDB.md`](memory/CORTEXDB.md) for isolation, permissions, privacy, and diagnostics.
+- **CortexDB** adds memory search and graph navigation through MCP. Install with `arca init --with cortexdb` or `arca integrations install cortexdb`. Default retrieval is lexical; semantic retrieval needs an embedding provider. See [`memory/CORTEXDB.md`](memory/CORTEXDB.md).
 - **Custom skills** package a genuinely repeated workflow. Keep them few and focused; see [`docs/SKILLS.md`](docs/SKILLS.md).
-- **Feynman or other research agents** can support hypothesis generation, critique, and replication, but their output becomes evidence only after it is recorded and verified through ARCA.
+- **Feynman** research workflows install with `arca init --with feynman` or `arca integrations install feynman`. Invoke the `feynman` skill in either agent for reviews, research, and replication planning. Outputs and provenance stay in ARCA; see [`docs/INTEGRATIONS.md`](docs/INTEGRATIONS.md).
 
 ## Common questions
 

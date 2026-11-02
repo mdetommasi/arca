@@ -172,7 +172,7 @@ def initialization_values(root):
     return values
 
 
-def initialize(root, objective, next_action):
+def initialize(root, objective, next_action, dry_run=False):
     objective, next_action = objective.strip(), next_action.strip()
     if not objective or not next_action:
         raise ArcaError("Both a research objective and a concrete next action are required.")
@@ -201,8 +201,9 @@ def initialize(root, objective, next_action):
             updated = re.sub(r"^Last updated: .*", f"Last updated: {stamp}", updated,
                              count=1, flags=re.MULTILINE)
         updates.append((relative, updated))
-    for relative, content in updates:
-        (root / relative).write_text(content, encoding="utf-8")
+    if not dry_run:
+        for relative, content in updates:
+            (root / relative).write_text(content, encoding="utf-8")
     return {"root": str(root), "updated": [item[0] for item in updates],
             "objective": objective, "next_action": next_action,
             "note": "Review questions, datasets, metrics, and compute constraints with your agent."}

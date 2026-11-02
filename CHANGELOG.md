@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Installazione opzionale CortexDB/Feynman da `init --with` o dal nuovo
+  `integrations install`, con scope progetto/utente e supporto Claude/Codex.
+  CortexDB via MCP locale; Feynman come workflow upstream con adattatore skill.
+  Versioni fissate, SHA-256, anteprima offline, stato locale, backup,
+  protezione delle configurazioni esistenti e ripristino su errori di scrittura.
 - Implementazione CLI raccolta in `scripts/arca_cli/` insieme agli strumenti
   del repository; launcher `./arca` e comando installato `arca` invariati.
   Avvio dal sorgente con `python3 arca` o `python3 -m scripts.arca_cli`.

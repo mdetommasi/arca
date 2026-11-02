@@ -1,4 +1,4 @@
-# Coding agent compatibility · ottobre 2026
+# Coding agent compatibility · novembre 2026
 
 ## ARCA interface in an editor session
 
@@ -46,11 +46,22 @@ interactive behavior has not been tested in every installed extension version.
 
 ## Feynman / other research agents
 
+`arca init --with cortexdb feynman --scope project` installs native skills for
+both hosts and a shared local CortexDB MCP configuration. On an existing
+project use `arca integrations install cortexdb feynman`. User scope and
+host selection are supported; see [`INTEGRATIONS.md`](INTEGRATIONS.md).
+
+Feynman is installed as original workflow prompts with an ARCA host adapter:
+`/feynman lit ...` in Claude or `$feynman lit ...` in Codex. This skills edition
+uses the active host's tools; it does not install Pi, standalone Feynman,
+its science-search tools, or its model login. Native delegation is used only
+when available and authorized; otherwise stages run sequentially.
+
 Maintain separate scientific roles (hypothesis generation, review, verification) but insist their findings be written to ARCA's canonical Markdown/registries with IDs and provenance. Avoid rewriting agent/vendor-specific capabilities into universal hard requirements.
 
 ## VS Code and portability
 
-Use repo root paths and Python standard library helpers wherever possible. Avoid symlinks, mandatory extensions, mandatory database processes, machine-specific absolute paths in tracked files. User-local environment files and `CORTEXDB_PATH` are not committed.
+Use repo root paths and Python standard library helpers wherever possible. Avoid symlinks, mandatory extensions, mandatory database processes, machine-specific absolute paths in tracked files. Optional installation writes machine-local MCP paths and adds ignore patterns; already tracked configs still need review before committing. Reinstall after moving a project to refresh absolute paths.
 
 ## Change-management
 

@@ -146,3 +146,44 @@ Scientific question/experiment: not applicable; no ML run.
   whitespace check successfully. The earlier 21 tests and packaging checks
   remain applicable; no implementation changes followed them.
 - Publication revision and upstream alignment are recorded by Git.
+
+## 2026-11-02 — Optional CortexDB and Feynman installation
+
+- REQUEST: design and implement automatic installation for user/project scope,
+  available to both Claude Code and Codex, including integration with init.
+- DECISION: plain init remains offline. `init --with cortexdb feynman` opts in;
+  `integrations install` adds components later without editing research notes.
+  Default scope is project and both hosts; user scope shares memory across projects.
+- DECISION: use CortexDB's pinned stdio MCP binary and native host configuration.
+  Feynman uses original workflow prompts/roles with a host adapter, preserving
+  the current agent's tools and ARCA evidence rules. No Pi-only skills are
+  exposed directly, no full Feynman runtime or automatic memory hooks are installed.
+- Implemented SHA-256 verification, offline preview, manifest/integrity status,
+  conflict preservation, backups, rollback for caught write failures, an install
+  lock, verified cache reuse, and project-path refresh after relocation.
+- FACT: 46 tests passed (21 existing CLI + 25 installer tests). Tests cover
+  both scopes/hosts, config merging, conflicts, cache/idempotence, network/write
+  failures, concurrent edits, init preflight, relocation, and archive validation.
+- FACT: actual CortexDB 2.142.0 and Feynman 0.5.61 downloads verified and installed
+  in a disposable macOS ARM64 project; repeated install changed no files.
+  CortexDB initialized over MCP, exposed 115 tools, and saved a synthetic memory
+  that a second server process recalled from the same temporary database.
+- FACT: Claude Code 2.1.292 read the generated server config and reported pending
+  approval, as expected. Codex configuration follows official docs and passed TOML
+  parsing; interactive Codex loading and model-driven Feynman workflows were not run.
+- FACT: the built wheel initialized a disposable project with both integrations,
+  passed installation status, and repeated installation without writes. The four
+  installed skill entrypoints and both ARCA skill adapters passed validation.
+- FACT: README, integration/CLI/agent/memory guides and illustrated HTML/PDF were
+  updated; the PDF is five pages. Research placeholders remain intact and no live
+  user agent profiles, experiments, findings, or scientific claims were changed.
+- Completed plan: `research/plans/completed/PLAN-002-integrations.md`. Changes
+  remain local; next action is the offline installation preview in `context/NEXT.md`.
+
+## 2026-11-02 — Publish optional integration installation
+
+- User explicitly requested commit and push of the completed feature.
+- Strict structural validation and whitespace checks passed. The 46 tests,
+  installed-wheel verification, and real MCP smoke test from implementation
+  remain applicable; no implementation changes followed those checks.
+- Publication revision and remote alignment are recorded by Git HEAD/upstream.

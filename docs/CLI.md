@@ -49,6 +49,7 @@ during work. These short chat requests keep the sequence explicit:
 | Operation | Claude Code chat | Codex chat |
 |---|---|---|
 | Initial setup, once | `/arca init` | `$arca init` |
+| Add optional integrations | `/arca integrations install cortexdb feynman` | `$arca integrations install cortexdb feynman` |
 | Resume an existing project | `/arca resume` | `$arca resume` |
 | Read the current summary | `/arca status` | `$arca status` |
 | Prepare an experiment | `/arca experiment new "baseline"` | `$arca experiment new "baseline"` |
@@ -152,6 +153,10 @@ form is available only when the Python package is installed.
 | Command | Result | Writes |
 |---|---|---|
 | `arca init` | Sets the research objective and next action | Only the corresponding empty/template sections in CHARTER, STATE, NEXT |
+| `arca init --with cortexdb feynman` | Initializes and installs both optional integrations | Research sections plus native agent skills/MCP config and local runtime files |
+| `arca integrations install cortexdb feynman` | Adds integrations to an existing project | Agent skills/MCP config, local runtime files, project ignore patterns |
+| `arca integrations install cortexdb feynman --dry-run` | Previews pinned versions and destination paths, offline | None |
+| `arca integrations status` | Verifies installed files and managed config | None |
 | `arca status` | Shows objective, next action, Git state, experiment counts | None |
 | `arca status --full` | Also prints the complete STATE and NEXT records | None |
 | `arca check` | Checks required files and selected experiment references | None |
@@ -176,6 +181,31 @@ single next action can also be reused by running `arca init` again without
 flags. If a target section already contains different notes, initialization
 reports the conflict before writing any target file. Edit ongoing research
 notes directly or through your agent.
+
+### Install optional integrations
+
+```bash
+arca init --with cortexdb feynman --scope project \
+  --objective "Compare calibration methods." --next-action "Inspect the data split."
+
+# Later, without changing research notes:
+arca integrations install cortexdb feynman --scope user
+arca integrations status --scope user --json
+```
+
+`--with` accepts `cortexdb`, `feynman`, or both. `--scope` defaults to `project`;
+`user` installs across projects and shares one user memory database. Both
+Claude and Codex are configured by default; `--agents claude` or `--agents codex`
+limits installation to one host. Both options apply to `init` and
+`integrations install`; they never change the scope of research notes.
+
+Use `integrations install ... --dry-run` to preview without network or writes.
+Plain `init` installs no integrations. Feynman is the skills edition for the
+current host; CortexDB is a local stdio MCP server. Reopen the agent session
+after installing, then handle the host's normal trust prompt.
+See [`INTEGRATIONS.md`](INTEGRATIONS.md) for usage, locations, versions, and
+conflict recovery. `integrations status` checks files/configuration rather than
+live MCP connectivity; missing or modified managed resources cause exit `1`.
 
 ### Prepare an experiment
 
@@ -229,6 +259,10 @@ the canonical `state`/`next` text, `warnings`, and `job_status`.
 `check` includes `ok`, `errors`, `warnings`, and the validation scope.
 Experiment creation returns `experiment_id`, `path`, and the recorded status;
 checkpoint creation returns the snapshot `path`.
+Integration installation returns `scope`, `agents`, `integrations`, `manifest`,
+`dry_run`, and, after an actual install, `changed` and `backup_dir`. Each planned
+integration includes its pinned version, source URL/hash, and destination paths.
+Init with optional components includes this result under `integrations`.
 
 Exit codes: `0` success; `1` operational/validation failure; `2` invalid
 arguments; `130` interrupted execution. `check --strict` may return `1`

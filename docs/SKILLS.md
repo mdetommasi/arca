@@ -45,6 +45,13 @@ Contenuto breve: trigger preciso, input, passi essenziali, output, stop conditio
 
 ## Skill ≠ AGENTS.md ≠ CortexDB
 
+Le integrazioni opzionali si installano con `arca init --with cortexdb feynman`
+oppure `arca integrations install cortexdb feynman`. Le skill `cortexdb` e
+`feynman` diventano disponibili in entrambi gli agenti nello scope scelto
+(`project` o `user`); non sono incluse nelle skill di base del template.
+Feynman usa prompt upstream con un adattatore per gli strumenti dell'host.
+Vedi [`INTEGRATIONS.md`](INTEGRATIONS.md) per invocazioni e limiti dell'edizione.
+
 - `AGENTS.md`: principi cross-task invarianti;
 - skill: workflow eseguibile just-in-time;
 - CortexDB: indice/recall, può recuperare riferimenti;

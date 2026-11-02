@@ -17,6 +17,11 @@ Sessioni molto lunghe, compaction, cambio modello, sperimentazioni negative, mod
 Clona/copia il template e avvia `./arca init` per impostare obiettivo e prossima azione, oppure chiedilo all'agente con `$arca` (Codex) o `/arca` (Claude Code). Completa `research/CHARTER.md` con benchmark/validazione e datasource; prepara Git e l'ambiente Python. Esegui `./arca check`. La [guida CLI](CLI.md) descrive anche installazione e output JSON.
 
 Non è necessario installare CortexDB, skill esterne o server MCP per cominciare.
+Per aggiungerli esplicitamente durante il setup usa
+`./arca init --with cortexdb feynman --scope project`; per aggiungerli in seguito
+usa `./arca integrations install cortexdb feynman`. Lo scope `user` li rende
+disponibili fra progetti. Riapri poi la sessione e segui
+[`INTEGRATIONS.md`](INTEGRATIONS.md) per uso e verifica.
 
 ## 4. Uso giornaliero
 

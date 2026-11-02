@@ -1,4 +1,4 @@
-# CortexDB integration · OPTIONAL · reviewed 2026-10-22
+# CortexDB integration · OPTIONAL · reviewed 2026-11-02
 
 **Progetto corretto:** https://github.com/liliang-cn/cortexdb (MIT, Go, SQLite + FTS/graph/vector). Non confondere con altri prodotti con nome simile o dominio `cortexdb.ai`.
 
@@ -6,7 +6,40 @@
 
 ARCA senza CortexDB = completamente funzionante. CortexDB può aiutare con recall attraverso sessioni/modelli, ricerca e grafi (e.g. H-001 -> E-0004 -> F-002 -> C-003), ma non è il database ufficiale della ricerca. `FINDINGS`, experiment reports, dati e claim Git-tracked hanno priorità.
 
-## Opzione 1: installare il plugin ufficiale
+## Installazione automatica con ARCA
+
+Durante il setup usa `./arca init --with cortexdb feynman --scope project`.
+Su un progetto già inizializzato:
+
+```bash
+./arca integrations install cortexdb --scope project
+./arca integrations status --scope project
+```
+
+Entrambi gli agenti ricevono il server MCP `cortexdb` e la skill omonima.
+`--scope user` lo rende disponibile in tutti i progetti; `--agents claude`
+o `--agents codex` limita gli host configurati. Aggiungi `--dry-run` al comando
+di installazione per vedere versioni e percorsi senza download o modifiche.
+
+Riapri la sessione, gestisci il normale consenso MCP del coding agent e usa
+`/cortexdb recall ...` in Claude oppure `$cortexdb recall ...` in Codex.
+L'installer imposta esplicitamente lo stesso `CORTEXDB_PATH` per i due host:
+`.local/cortexdb/brain.db` nello scope progetto, `~/.cortexdb/cortexdb.db`
+nello scope utente. Non serve esportarlo a mano. `CORTEXDB_REMOTE` viene
+svuotato nella configurazione generata per mantenere questa installazione locale.
+
+ARCA installa un binario fissato con SHA-256 verificato, senza hook automatici.
+`integrations status` verifica file/configurazioni, non la connessione live.
+Il motore usa ricerca **lessicale** senza provider embedding; per ricerca
+semantica occorre configurare gli embedding secondo la guida upstream.
+Altre variabili del provider già esportate possono essere ereditate dal server.
+Dettagli, conflitti, versioni e scope: [`docs/INTEGRATIONS.md`](../docs/INTEGRATIONS.md).
+
+## Alternativa: installare il plugin ufficiale
+
+Questo percorso è alternativo all'installer ARCA e include le capacità del
+plugin upstream, come gli hook. Evita di configurare due copie dello stesso
+server senza verificare precedenze e duplicati nell'host.
 
 Claude Code, nel comando slash interno:
 
@@ -26,7 +59,7 @@ Per Codex: apri `/hooks`, esamina e autorizza esplicitamente gli hook CortexDB d
 
 L'installer upstream può scaricare binari precompilati al primo avvio: esamina provenienza, versioni e permessi prima di abilitarlo su ambienti istituzionali.
 
-## Scelta A (consigliata per test): DB isolato per progetto
+## Configurazione manuale del plugin: DB isolato per progetto
 
 Dalla root della repo, prima di lanciare **entrambi** gli agenti:
 
@@ -47,7 +80,7 @@ CortexDB espone `cortexdb-grpc`. Le variabili documentate upstream sono `CORTEXD
 
 ## Workflow di recall
 
-1. Recupera possibili riferimenti con `/recall ...` o tool MCP.
+1. Recupera possibili riferimenti con la skill `cortexdb` installata da ARCA, i tool MCP, oppure `/recall ...` se usi il plugin upstream.
 2. Per ogni finding/claim recuperato controlla file, ID, stato, commit, metriche e limiti.
 3. Se l'informazione non coincide con il canonico, correggi la memoria derivata o segnala la discrepanza; non modificare l'evidenza per farla coincidere.
 4. Esegui aggiornamenti semantici in modalità controllata, non un import indiscriminato di transcript.

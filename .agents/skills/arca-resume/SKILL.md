@@ -17,7 +17,7 @@ Reconstruct a reliable, concise snapshot of the active ARCA research project. Tr
 6. Report, briefly: research objective; latest **verified** findings with source IDs; active experiment/status; important blockers and inconsistencies; any running job that is explicitly evidenced (otherwise unknown); and one concrete next action, including whether approval is required.
 
 ## Non-negotiable rules
-- **Read-only.** Do not edit files, start/stop processes, launch GPU jobs, change Git state or perform network-dependent actions without explicit user direction.
+- **Read-only.** Do not edit files, start/stop processes, launch GPU jobs, change Git state or perform network-dependent actions without explicit user direction. In particular, do not retitle `## Now`, `## Current objective`, or `## Research objective`. Session labels belong in the section body; `arca status` reports a suffix on those headings as a warning.
 - Distinguish measured facts, interpretations, hypotheses, and pending validations.
 - Do not claim an experiment, checkpoint or background process exists unless verified.
 - End by asking the researcher whether to proceed with the suggested action, rather than executing it.

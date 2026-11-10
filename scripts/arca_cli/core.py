@@ -140,10 +140,33 @@ def validate(root, context_only=False):
             "warnings": warnings, "scope": "structure and selected references"}
 
 
-def section_span(text, heading):
-    match = re.search(r"^## " + re.escape(heading) + r"[ \t]*\r?$", text, re.MULTILINE)
+def heading_match(text, heading):
+    """Find a canonical ``##`` heading, including a same-line annotation.
+
+    ``## Now`` and ``## Now (Session bootstrap)`` are the same section. A
+    different word, such as ``## Nowadays``, is not. The heading line itself
+    stays canonical; notes belong in the section body.
+    """
+    pattern = r"^## " + re.escape(heading) + r"(?:[ \t]+.+)?[ \t]*\r?$"
+    match = re.search(pattern, text, re.MULTILINE)
     if not match:
         raise ArcaError(f"Missing section: ## {heading}")
+    return match
+
+
+def heading_annotation_warning(text, heading, relative):
+    line = heading_match(text, heading).group(0).strip()
+    expected = f"## {heading}"
+    if line == expected:
+        return None
+    return (
+        f"{relative} heading is '{line}'; keep the canonical heading '{expected}' "
+        "and put notes in the section body."
+    )
+
+
+def section_span(text, heading):
+    match = heading_match(text, heading)
     following = re.search(r"^## ", text[match.end():], re.MULTILINE)
     end = match.end() + following.start() if following else len(text)
     return match.end(), end
@@ -212,7 +235,8 @@ def initialize(root, objective, next_action, dry_run=False):
 def status(root):
     state = read_text(root, "context/STATE.md")
     next_text = read_text(root, "context/NEXT.md")
-    objective = section(read_text(root, "research/CHARTER.md"), "Research objective")
+    charter = read_text(root, "research/CHARTER.md")
+    objective = section(charter, "Research objective")
     next_section = section(next_text, "Now")
     actions = re.findall(r"^\s*(?:\d+[.)]|[-*])\s+\[ \]\s+(.+)$", next_section, re.MULTILINE)
     next_action = next((a.strip() for a in actions if a.strip() != "..."), None)
@@ -222,6 +246,13 @@ def status(root):
         value = (row.get("status") or "unknown").strip() or "unknown"
         counts[value] = counts.get(value, 0) + 1
     warnings = []
+    for relative, heading, content in (
+        ("research/CHARTER.md", "Research objective", charter),
+        ("context/NEXT.md", "Now", next_text),
+    ):
+        warning = heading_annotation_warning(content, heading, relative)
+        if warning:
+            warnings.append(warning)
     if configured_value(objective, PLACEHOLDERS["objective"]) is None:
         objective = None
         warnings.append("Research objective is still a template; run arca init.")

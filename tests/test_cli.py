@@ -259,6 +259,30 @@ class CLITest(unittest.TestCase):
         self.assertEqual(value["next_action"], "Inspect metrics")
         self.assertIn(STATE_TEMPLATE, self.run_cli("status", "--full").stdout)
 
+    def test_annotated_now_heading_stays_readable(self):
+        path = self.root / "context/NEXT.md"
+        path.write_text(
+            "# Next\n\n## Now (Session bootstrap)\n\n1. [ ] ...\n\n"
+            "## After that\n\n1. [ ] Preserve the follow-up task.\n"
+        )
+        status = json.loads(self.run_cli("status", "--json").stdout)
+        self.assertIsNone(status["next_action"])
+        self.assertTrue(any("## Now (Session bootstrap)" in item for item in status["warnings"]))
+        self.init()
+        text = path.read_text()
+        self.assertIn("## Now (Session bootstrap)", text)
+        self.assertIn("1. [ ] Inspect data/registry.yaml.", text)
+        self.assertIn("Preserve the follow-up task.", text)
+        status = json.loads(self.run_cli("status", "--json").stdout)
+        self.assertEqual(status["next_action"], "Inspect data/registry.yaml.")
+
+    def test_status_rejects_a_different_now_heading(self):
+        (self.root / "context/NEXT.md").write_text(
+            "# Next\n\n## Nowadays\n\n1. [ ] Inspect metrics\n"
+        )
+        result = self.run_cli("status", "--json", expected=1)
+        self.assertIn("Missing section: ## Now", json.loads(result.stdout)["error"])
+
     @unittest.skipUnless(shutil.which("git"), "Git not installed")
     def test_real_git_status_and_provenance_without_mutation(self):
         def git(*args):
